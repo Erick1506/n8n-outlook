@@ -1,0 +1,8 @@
+Flask
+PyMuPDF
+python-docx
+pandas
+pillow
+pytesseract
+numpy
+transformers
