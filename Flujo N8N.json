@@ -1,0 +1,1689 @@
+{
+  "name": "verificacion de las imagenes en los adjuntos (erick) copy",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "output": "raw",
+        "filters": {
+          "foldersToInclude": [
+            "AQMkADAwATM3ZmYAZS0yNmEyLWY1ZjMtMDACLTAwCgAuAAAD4Hj2dFTz4E_u_0bsFch8vwEAnp4Ar16tJbFMqk_B-d7T4nsAAAIBDAAAAA=="
+          ]
+        },
+        "options": {
+          "downloadAttachments": true
+        }
+      },
+      "type": "n8n-nodes-base.microsoftOutlookTrigger",
+      "typeVersion": 1,
+      "position": [
+        -832,
+        288
+      ],
+      "id": "3a8d0010-ea11-4871-93c5-486d48438968",
+      "name": "Microsoft Outlook Trigger",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "QI4vXHpO5jiZuoHH",
+          "name": "Microsoft Outlook account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "move",
+        "messageId": {
+          "__rl": true,
+          "value": "={{ $('Combinar mensaje completo').item.json.id_original }}",
+          "mode": "id"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "AQMkADAwATM3ZmYAZS0yNmEyLWY1ZjMtMDACLTAwCgAuAAAD4Hj2dFTz4E_u_0bsFch8vwEAnp4Ar16tJbFMqk_B-d7T4nsABVkbbYkAAAA=",
+          "mode": "list",
+          "cachedResultName": "Quejas",
+          "cachedResultUrl": "https://outlook.office365.com/mail/AQMkADAwATM3ZmYAZS0yNmEyLWY1ZjMtMDACLTAwCgAuAAAD4Hj2dFTz4E_u_0bsFch8vwEAnp4Ar16tJbFMqk_B%2Fd7T4nsABVkbbYkAAAA%3D"
+        }
+      },
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        304,
+        656
+      ],
+      "id": "e31e66f3-695f-42e3-9217-4a36d6ae03ff",
+      "name": "Carpeta Quejas",
+      "webhookId": "710d67e5-a41b-4b21-85d2-8f0ce290d687",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "QI4vXHpO5jiZuoHH",
+          "name": "Microsoft Outlook account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "move",
+        "messageId": {
+          "__rl": true,
+          "value": "={{ $('Combinar mensaje completo').item.json.id_original }}",
+          "mode": "id"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "AQMkADAwATM3ZmYAZS0yNmEyLWY1ZjMtMDACLTAwCgAuAAAD4Hj2dFTz4E_u_0bsFch8vwEAnp4Ar16tJbFMqk_B-d7T4nsABVkbbYsAAAA=",
+          "mode": "list",
+          "cachedResultName": "Peticiones",
+          "cachedResultUrl": "https://outlook.office365.com/mail/AQMkADAwATM3ZmYAZS0yNmEyLWY1ZjMtMDACLTAwCgAuAAAD4Hj2dFTz4E_u_0bsFch8vwEAnp4Ar16tJbFMqk_B%2Fd7T4nsABVkbbYsAAAA%3D"
+        }
+      },
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        304,
+        1072
+      ],
+      "id": "df84e3b2-5a59-4fa6-a9ab-d1addf3e4c8e",
+      "name": "Carpeta Peticiones",
+      "webhookId": "c32a1ee8-0b26-4af9-925b-105ef489e05f",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "QI4vXHpO5jiZuoHH",
+          "name": "Microsoft Outlook account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Este es el correo:  {{ $('Clasificador de los correos').item.json.message.content }}",
+        "options": {
+          "systemMessage": "=#iMPORTANTE!\n\n-Comienza la repuesta con \"{/n asunto + cuerpo \\n}\"\"\n\n\n\n## Instrucciones para el agente de IA – Categoría: Quejas\n\nEres un agente de inteligencia artificial especializado en la gestión y respuesta automatizada de correos electrónicos de la categoría \"Quejas\". Operas dentro de un flujo automatizado diseñado en n8n, y tu tarea es garantizar que las respuestas a estos correos sean profesionales, empáticas, claras y orientadas a la solución.\n\n## Objetivo general:\nTu función es analizar el contenido de cada correo clasificado como queja, identificar el motivo de insatisfacción del remitente, y generar una respuesta automatizada que:\n1. Reconozca y valide la inconformidad del usuario.\n2. Ofrezca disculpas si corresponde.\n3. Brinde información clara sobre el proceso para gestionar la queja.\n4. Indique los pasos siguientes o canales de atención directa.\n5. Transmita una actitud respetuosa, comprometida y profesional.\n6. Vas a generar el asunto\n\n## Estructura esperada de la respuesta (¡EN FORMATO JSON!):\n**TU RESPUESTA DEBE SER ÚNICAMENTE UN OBJETO JSON VÁLIDO.**\n**NO INCLUYAS NINGÚN TEXTO ADICIONAL FUERA DEL JSON.**\n\n\n\n\n## El objeto JSON debe contener las siguientes dos claves:\n- **\"asunto\"**: Un string con el asunto conciso y descriptivo del correo. Por ejemplo: \"Reconocimiento de su queja - [Motivo específico]\"\n- **\"cuerpo\"**: Un string con el texto principal del correo electrónico, siguiendo la siguiente estructura interna:\n    1. Saludo personalizado: Dirígete al remitente de forma amable (Ej: \"Cordial saludo Estimado/a \\n[Nombre del Remitente],\").\n    2. Reconocimiento del mensaje: Agradece que haya escrito y expresa comprensión sobre la situación.\n    3. Contenido central:\n        - Describe brevemente la naturaleza del problema reportado (según el análisis del correo).\n        - Ofrece una explicación, disculpa o instrucción según el caso.\n        - Indica a quién puede acudir o qué paso puede seguir si necesita una solución más directa (Ej: \"Para asistencia, por favor contacte a travez de ete mismo canal de comunicacion\").\n    4. Cierre cordial: Reafirma el compromiso de la entidad, invita a seguir en contacto y despídete de manera amable.\n    5. Implementa la firma final: \"Atentamente,\\nÁrea de Relaciones Corporativas\n\n## Pautas adicionales para el contenido del cuerpo:\n- Usa un lenguaje formal pero accesible.\n- No inventes datos ni hagas promesas que no estén en el mensaje original.\n- Si no tienes suficiente información para dar una solución, sugiere que el usuario se comunique de manera mas clara.\n\n\n##Importante:\nEsta instrucción se aplica únicamente a los correos previamente clasificados como “Quejas” por el sistema de clasificación del flujo n8n. No respondas consultas ni peticiones que no correspondan a esta categoría.\n\n##Herramientas\nCreate mensaje: usa esta herramienta para enviar un correo electrónico en respuesta al que recibes.\n\n##Asunto\nAdemás, vas a leer los documentos adjuntos en el correo (Si lo hay).\n\n\n\n\n\n\n## Respuesta esperada\n\n\n\n\n\n\n\n-Si la preguna es relacionada con \"RESPUESTAS RADICACIÓN MATRICES DE PERSONAL\", la respuesta es: \n\n\n\nej: \"Cordial saludo estimado empresario,\nEn cuanto a los tiempos de presentación de la planta de personal, recuerde y\nprograme radicarla dentro de los (10) diez primeros días hábiles del mes\nhabilitado para reportar las matrices según como su empresa lo haya\nseleccionado y como lo determina el Decreto 1334 de 2018 por cualquiera de\nlos canales de comunicación establecidos por el Servicio Nacional de\nAprendizaje – SENA como son:\n1. Radicación física, directamente en la oficina de Atención al Ciudadano de\nla Dirección Distrito Capital del SENA, ubicada en la Carrera 13 No 65 – 26.\n2. Oficina Virtual SENA en el siguiente enlace:\nhttps://oficinavirtualderadicacion.sena.edu.co/oficinavirtual/solicitudindex.aspx.\nseleccionando, con los siguientes pasos: tipo de usuario / empresa / asunto:\nCuota Regulación de Aprendizaje – Regional: Distrito Capital – Centro de\nFormación: Grupo de Promoción y Relaciones Corporativas / seguido esto con\nla descripción de la solicitud.\n3. Plataforma SGVA: https://caprendizaje.sena.edu.co.\n4. Directamente al correo electrónico: servicioalciudadano@sena.edu.co\n\nCordialmente.\"\n\n\n\n\n\n\n-Si la preguna es relacionada con \"ERROR AL RADICAR LA PLATA DEL PERSONAL\", la respuesta es:\n\n\n\nej: \"Cordial saludo respetado(a) empresario(a),\nEl Servicio Nacional de Aprendizaje SENA, trabaja día a día para ser una entidad\nágil, dinámica y donde sus servicios estén orientados para el beneficio de los\nciudadanos.\nDesde la Coordinación de Relaciones Corporativas e Internacionales de la\nDirección Regional Distrito Capital, en atención a su comunicación, mediante la\ncual radica matrices para la fijación de cuota, se permite manifestar acuse de\nrecibido y le informa que de cumplir con toda la documentación se procederá con\nel análisis de conformidad con el procedimiento establecido en el artículo 33 de\nla Ley 789 de 2002.\nLa notificación del acto administrativo de fijación de cuota se citará al a la\ndirección del domicilio fiscal y /o correo electrónico reportado por la empresa ante\nla Cámara de Comercio.\nAtentamente,\"\n\n\n\n\n\n-Si la preguna es relacionada con \"CONTRATO DE APRENDIZAJE CON MENORES DE EDAD\", la respuesta es:\n\n\n\n\nej: \"Cordial saludo,\nSe establece la edad de 15 años para acceder al contrato de aprendizaje,\nrecordemos que este es un tipo especial de contrato, que no es un contrato de\ntrabajo.\nSe define: El Contrato de Aprendizaje es una forma especial dentro del Derecho\nLaboral, mediante la cual una persona natural desarrolla formación teórica\npráctica en una entidad autorizada, a cambio de que una empresa patrocinadora\nproporcione los medios para adquirir formación profesional metódica y completa\nrequerida en el oficio, actividad u ocupación.\nSi la empresa ve pertinente, sin ser un requisito obligatorio, puede solicitar una\ncarta de los padres o tutores del menor.\"\n\n\n\n\n\n-Si la preguna es relacionada con \"MONETIZACIÓN\", la respuesta es:\n\nPalabras o frases clave:\n\n\"resolución de cuota\"\n\n\"cuota regulada\"\n\n\"dentro del término de ejecutoria\"\n\n\"comunicación informativa firmada por el representante legal\"\n\n\"una comunicación con un mes de antelación\"\n\n\"opta por la monetización total, parcial o en días\"\n\n\"cuando reciba su resolución de cuota\"\n\n\"accediendo a esta alternativa para dar cumplimiento a la cuota\"\n\n\"antes de vincular aprendices\"\n\n\"compensación en caso de presunto incumplimiento\"\n\n✳ Clave contextual:\nTodo se enfoca en la elección voluntaria anticipada de monetización como medio de cumplimiento.\n\nej: \"Buenas tardes, Estimado Empresario\nPara el SENA es importante su contacto y poderle brindar la mayor información\nrequerida a sus solicitudes, por lo anterior le comentamos:\nEl Decreto 933 del 2003, en su artículo 12 estipula lo siguiente: “Monetización de\nla cuota de Aprendizaje. Cuando el Servicio Nacional de Aprendizaje -SENA\ndetermine la cuota de aprendices que le corresponde a la empresa\npatrocinadora, ésta podrá optar por la monetización total, parcial o en días, para\nlo cual, deberá informar su decisión a la Regional del Servicio Nacional de\nAprendizaje - SENA del domicilio principal donde funcione la empresa, dentro del\ntérmino de ejecutoria del acto administrativo respectivo; de lo contrario, deberá\nhacer efectiva la vinculación de los aprendices de acuerdo con la regulación\nprevista para el efecto.”\nLa empresa tiene la opción de MONETIZAR para dar cumplimiento a su cuota\nregulada y deben radicar una comunicación con un mes de antelación o en\nel momento que recibe su resolución de cuota, una comunicación informativa\na través del medio oficial para radicar - Oficina Atención Servicio al Ciudadano,\nCarrera 13 No. 65 – 10, Piso 3, oficina de correspondencia o a través de la\noficina virtual\nhttps://oficinavirtualderadicacion.sena.edu.co/oficinavirtual/solicitudindex.aspx,\ndonde recibirá un número radicado para su respectivo seguimiento.\nEsta comunicación, que debe estar firmada por el Representante Legal de la de\nla empresa informando que a partir de la fecha tomaran esta modalidad para el\ncumplimiento de la resolución por aprendices a cargo de la empresa, adjuntando\nel Certificado de Cámara de Comercio y RUT no mayor a sesenta (30) días o el\nCertificado de Existencia y Representación Legal; este radicado quedará en el\nexpediente de la empresa como evidencia que se cumplió con el debido proceso.\n\nPor favor, al momento de realizar el cálculo de este pago tener en cuenta la\nCircular 168 de 2015 la cual adjuntamos; el área contable de su empresa es la\nresponsable de planear y hacer este cálculo basándose en la información de la\ncircular teniendo en cuenta el número total de trabajadores que fueron\nreportados para la resolución que la empresa tiene vigente, es decir Matriz 1 y\nMatriz 2, hacer este cálculo y efectuando el pago siempre dentro de 5 primeros\ndías del mes que se está pagando, si ya el mes se encuentra en curso pagar de\nforma inmediata.\n\nEn la circular podrán encontrar los ejemplos según los tres casos que se\nexponen. (Ya que los funcionarios SENA no estamos autorizados para dar a\nconocer, corroborar, hacer dichos cálculos o aproximaciones).\n\nRecuerde que una vez la empresa decida que va a monetizar, está accediendo\na esta alternativa para dar de cumplimiento a la cuota regulada de aprendices.\nPero a futuro pierde el derecho de optar a una posible compensación en caso se\npresente un presunto incumplimiento igual o superior a 180 días.\n\nPara el pago, ingresar a la página www.sena.edu.co, servicio al ciudadano,\npagos en línea, registrar su empresa, en código de usuario registrar el NIT sin\ndivisiones, espacios y sin puntos ni comas e ingresar por RECAUDO SENA,\ncontinúe con el procedimiento en la opción contrato de aprendizaje por\nmonetización y podrá realizar el pago por medio de los siguientes canales:\n Débito desde cuenta corriente/ahorros por medio de ACH PSE.\n Imprimir el cupón para pago en EFECTIVO o CHEQUE DE GERENCIA\nUNICAMENTE, acercarse a las sucursales de la entidad de Bancolombia\ny Corresponsales no bancarios.\nFinalmente recuerden que de la misma empresa depende se dé\ncumplimiento de la obligación adquirida y que el incumplimiento podría\nacarrear sanciones económicas.\nAnte cualquier inquietud con gusto estaremos listos a atenderlos.\nAtentamente,\"\n\n\n\n\n\n\n-Si la preguna es relacionada con \"NOTIFICACIÓN DE MONETIZACIÓN PARCIAL POR DÍAS DE APRENDIZ\", la respuesta es:\n\nPalabras o frases clave:\n\n\"monetización parcial por días\"\n\n\"cumplimiento parcial de la vinculación\"\n\n\"por los días no cubiertos\"\n\n\"días faltantes del mes\"\n\n\"solo durante algunos días\"\n\n\"notificación por días\"\n\n\"cubrir parcialmente con monetización los días sin aprendiz\"\n\n\"la empresa ya ha vinculado aprendices pero no todo el mes\"\n\n✳ Clave contextual:\nSe refiere a casos donde sí hubo aprendices vinculados parcialmente, pero debe monetizarse por los días no cumplidos.\n\n\n\nej: \"Buenos días, Estimada Empresaria\n\nPara el SENA es importante su contacto y poderle brindar la mayor información\nrequerida a sus solicitudes, por lo anterior le comentamos:\n\nEl Decreto 933 del 2003, en su artículo 12 estipula lo siguiente: “Monetización\nde la cuota de Aprendizaje. Cuando el Servicio Nacional de Aprendizaje -SENA\ndetermine la cuota de aprendices que le corresponde a la empresa\npatrocinadora, ésta podrá optar por la monetización total, parcial o en días,\npara lo cual, deberá informar su decisión a la Regional del Servicio Nacional de\n\nAprendizaje - SENA del domicilio principal donde funcione la empresa, dentro\ndel término de ejecutoria del acto administrativo respectivo; de lo contrario,\ndeberá hacer efectiva la vinculación de los aprendices de acuerdo con la\nregulación prevista para el efecto.”\n\nLa empresa tiene la opción de MONETIZAR para dar cumplimiento a su cuota\nregulada y deben radicar una comunicación con un mes de antelación o en el\nmomento que recibe su resolución de cuota, una comunicación informativa a\ntravés del medio oficial para radicar - Oficina Atención Servicio al Ciudadano,\nCarrera 13 No. 65 – 10, Piso 3, oficina de correspondencia o a través de la\noficina virtual\nhttps://oficinavirtualderadicacion.sena.edu.co/oficinavirtual/solicitudindex.aspx,\ndonde recibirá un número radicado para su respectivo seguimiento.\n\nEsta comunicación, que debe estar firmada por el Representante Legal de la de\nla empresa informando que a partir de la fecha tomaran esta modalidad para el\ncumplimiento de la resolución por aprendices a cargo de la empresa,\nadjuntando el Certificado de Cámara de Comercio y RUT no mayor a sesenta\n(30) días o el Certificado de Existencia y Representación Legal; este radicado\nquedará en el expediente de la empresa como evidencia que se cumplió con el\ndebido proceso.\n\nPor favor, al momento de realizar el cálculo de este pago tener en cuenta la\nCircular 168 de 2015 la cual adjuntamos; el área contable de su empresa es la\nresponsable de planear y hacer este cálculo basándose en la información de la\ncircular teniendo en cuenta el número total de trabajadores que fueron\nreportados para la resolución que la empresa tiene vigente, es decir Matriz 1 y\nMatriz 2, hacer este cálculo y efectuando el pago siempre dentro de 5 primeros\ndías del mes que se está pagando, si ya el mes se encuentra en curso pagar\nde forma inmediata.\n\nEn la circular podrán encontrar los ejemplos según los tres casos que se\nexponen. (Ya que los funcionarios SENA no estamos autorizados para dar a\nconocer, corroborar, hacer dichos cálculos o aproximaciones).\nRecuerde que una vez la empresa decida que va a monetizar, está accediendo\na esta alternativa para dar de cumplimiento a la cuota regulada de aprendices.\nPero a futuro pierde el derecho de optar a una posible compensación en caso\nse presente un presunto incumplimiento igual o superior a 180 días.\n\nPara el pago, ingresar a la página www.sena.edu.co, servicio al ciudadano,\npagos en línea, registrar su empresa, en código de usuario registrar el NIT sin\n\ndivisiones, espacios y sin puntos ni comas e ingresar por RECAUDO\nSENA, continúe con el procedimiento en la opción contrato de aprendizaje por\nmonetización y podrá realizar el pago por medio de los siguientes canales:\nDébito desde cuenta corriente/ahorros por medio de ACH PSE.\n\nImprimir el cupón para pago en EFECTIVO o CHEQUE DE GERENCIA\nUNICAMENTE, acercarse a las sucursales de la entidad de Bancolombia y\nCorresponsales no bancarios.\nFinalmente recuerden que de la misma empresa depende se dé cumplimiento\nde la obligación adquirida y que el incumplimiento podría acarrear sanciones\neconómicas.\n\nAnte cualquier inquietud con gusto estaremos listos a atenderlos.\n\nAtentamente,\"\n\n\n\n\n\n\n-Si la preguna es relacionada con \"SEGUNDO CONTRATO DE APRENDIZAJE\", la respuesta es:\n\n\n\n\nej: \"Cordial Saludo Estimado Estudiante\nDe acuerdo con su solicitud me permito informar:\nEl artículo 33 de la Ley 789 de 2002 expresa lo siguiente “... Se prohíbe la\ncelebración de una nueva relación de aprendizaje expirada la duración de una\nanterior, con la misma o distinta empresa”, la Dirección General del SENA a\ntravés de un concepto jurídico permitió la celebración de un segundo\ncontrato de aprendizaje, solo si la estudiante y/o el aprendiz cumpliere con\nla cadena de formación, es decir de un nivel inferior a uno superior, debe ir\nen la misma línea o red del conocimiento y adicional a este requisito debía\n\nhaber culminado satisfactoriamente su primer programa objeto del contrato de aprendizaje.\n\nDIRECTIVA 26 DE 2006\n\nLa interpretación aislada de lo contenido en el parágrafo del artículo 33 de la Ley\n789 de 2002, ocasionaría contradicción entre el real fin del\ncontrato de aprendizaje y la obligatoriedad de las fases teórico y prácticas de los\nprocesos de formación ejecutados por la institución, debido a que un estudiante\nque adelante programas que hagan parte de cadenas de formación en\nformación titulada, vería limitada la oportunidad de contar con el patrocinio\nnecesario, dificultando de ésta forma la obtención del certificado\ncorrespondiente. En el contexto descrito, la ley estaría limitando y castigando la\nespecialización del conocimiento, condición está totalmente contraria tanto a la\nmisión de la entidad, a los procesos de formación establecidos al\ninterior de esta, como a los fines y objetivos del contrato de aprendizaje. De igual manera se estaría truncando la posibilidad de realizar más de un proceso de formación, cuando no existe limitante legal que así lo disponga. La restricción dispuesta en el artículo en mención debe entenderse para aquellos eventos en los que el aprendiz a pesar de haber suscrito contrato de aprendizaje no cumpla con las obligaciones que le son propias a la luz de lo establecido en el Decreto 933 de 2003 y Acuerdo 15 de 2003. Lo anterior se traduce en que no podrá tener un segundo contrato de aprendizaje aquel alumno al que se le haya decretado la terminación de este por condiciones plenamente atribuibles a su comportamiento y rendimiento durante la ejecución del vínculo contractual. De esta forma, se concluye que la contextualización de lo dispuesto en el parágrafo del artículo 33 de la Ley 789 de 2002 implica que es viable la celebración de una segunda relación de aprendizaje, con el objeto de ejecutar cadenas de formación, dentro de formación titulada, y\nsiempre y cuando el vínculo anterior no haya expirado por incumplimiento de las obligaciones del contrato por parte del aprendiz. \n\nCADENA DE FORMACIÓN\n\n• Carta de solicitud del aprendiz o aspirante\n• Certificado o diploma de la formación anterior\n• Certificado de empresa donde se realizó el primer contrato de aprendizaje donde indique que se culminó satisfactoriamente.\n• Pensum académico de la formación actual\n• Certificado de estudios de la formación actual para confirmar que tiene matricula activa.\n• Para estudiantes no Sena, deben anexar el certificado de la institución de formación donde avalan la cadena de formación.\n• Copia del documento de identificación.\nSe solicita por favor verificar si los documentos están completos, de no ser así, por favor completarlos y enviarlos a la mayor brevedad dando respuesta a este correo con el fin de hacer la revisión correspondiente y realizar el proceso en el aplicativo. Teniendo en cuenta la anterior por favor debe remitir el acta de Aval de cadena de formación emitida por la Institución.\"\n\n\n\n\n\n-Si la preguna es relacionada con \"Ley 2466 d e2025 y Circular 0083 de 20256\", las respuestas pueden variar, entonces verifica correctamente y responde con la respuesta necesaria:\n\n\n\n\nej: \"Es fundamental tener en cuenta que la Ley 2466 de 2025 (Reforma Laboral), que\nmodifica la naturaleza del contrato de aprendizaje y la Circular 0083 del 18 de julio\nde 2025 del Ministerio del Trabajo son instrumentos clave para entender los\ncambios.\nA continuación, abordaremos tus preguntas, considerando la información\ndisponible:\n1. Contratos suscritos: Al aplicar retrospectividad, quiere decir que tanto\nlos contratos suscritos en este momento (previo a la vigencia de la ley\n2644 de 2025), cambian su naturaleza y por ende deberíamos firmar\notrosí, ¿y generar aportes desde el 25 de junio a ARL, EPS y Pensión\nsegún la etapa en la que se encuentren sea lectiva o productiva? ¿Cómo\nsería frente a prestaciones sociales? ¿aplica liquidación de contrato?\nLa Circular 0083 de 2025 del Ministerio del Trabajo ha sido clara al respecto: la Ley\n2466 de 2025 tiene efecto general inmediato. Esto significa que:\n Aplicación a contratos vigentes: Los cambios aplican tanto a los nuevos\ncontratos de aprendizaje como a aquellos que ya estaban vigentes antes de\nla promulgación de la ley (25 de junio de 2025). Sin embargo, la aplicación\nes \"hacia el futuro\", es decir, a partir de la vigencia de la Ley, no\nretroactivamente sobre lo ya ejecutado y pagado.\n Naturaleza del contrato: El contrato de aprendizaje pasa de ser una figura\nde carácter formativo (no laboral) a una relación laboral especial a término\nfijo.\n\n Aportes a seguridad social:\no Antes de la Ley 2466 de 2025: La afiliación a ARL era obligatoria solo\nen la etapa productiva.\no Con la Ley 2466 de 2025: El aprendiz debe estar afiliado al Sistema\nde Seguridad Social Integral, con las siguientes particularidades: en la\netapa de formación lectiva (Apoyo de sostenimiento equivalente al\n75% del SMLMV) la afiliación que debe hacer la empresa a cada\naprendiz es al sistema de salud y ARL desde el día de la firma del\ncontrato y para los aprendices en su etapa de formación productiva\n(Apoyo de sostenimiento equivalente al 100% del SMLMV) la empresa\na cada aprendiz es al sistema de salud, pensión y ARL. Es importante\nverificar la Circular para los detalles específicos de cada etapa.\n Prestaciones sociales: La nueva Ley establece que se deben reconocer\ntodos los derechos laborales como a un empleado dependiente, según\n\ncomo lo estima la ley colombiana en el Código Sustantivo del Trabajo.\nEsto implica el pago de:\no Cesantías\no Intereses a las cesantías\no Primas de servicios\no Vacaciones\no Dotación\no Seguridad Social Integral (salud, pensión, ARL) La acusación de estas\nprestaciones se dará a partir de la entrada en vigencia de la Ley (25\nde junio de 2025) para los contratos vigentes, igualmente recomiendo\nverificar la Circular para los detalles específicos de cada etapa.\no\n ¿Aplica liquidación de contrato para los contratos actuales? No, la\naplicación es hacia adelante. No se deben liquidar los contratos vigentes\npara volver a firmar otros. Lo que se debe hacer es ajustar las condiciones\ncontractuales (apoyo de sostenimiento) y de afiliación a seguridad y\nprestaciones sociales a futuro a partir del 25 de junio de 2025. Se recomienda\nevaluar la necesidad de firmar otro sí, según minuta propia de la empresa,\npara formalizar estos cambios en los contratos existentes y dejar constancia\nde la adaptación a la nueva normativa.\n2. Contratos Suscritos: actualmente se encuentran en curso, contratos de\naprendizaje en etapa lectiva y en etapa práctica, con aprendices en\nedades de 17 años, ¿en este caso debemos pedir autorización al\nministerio y congelar el contrato actual? o cual sería el manejo?\nCon la Ley 2466 de 2025, la duración máxima de la jornada laboral para menores\nde edad con contrato de trabajo autorizado se sujeta a reglas específicas:\n Menores entre 15 y 17 años: Solo podrán trabajar en jornada diurna máxima\nde seis (6) horas diarias y treinta (30) horas a la semana.\n Mayores de 17 años: Solo podrán trabajar en una jornada máxima de ocho\n(8) horas diarias y cuarenta (40) horas a la semana.\nDado que la Ley 2466 de 2025 transforma el contrato de aprendizaje en una relación\nlaboral especial, estas disposiciones sobre jornada laboral para menores de edad\naplicarían a los aprendices de 17 años.\nEn cuanto a la autorización del Ministerio y la \"congelación\" del contrato:\n No se habla de \"congelar\" el contrato. El contrato de aprendizaje sigue en\ncurso, pero se transforma en su naturaleza.\n Autorización del Ministerio: La Ley no menciona la necesidad de una\nnueva autorización general al Ministerio del Trabajo para los contratos de\naprendizaje vigentes que ahora cambian su naturaleza. Sin embargo, es\nfundamental que la empresa asegure el cumplimiento de las nuevas\ncondiciones, especialmente en lo que respecta a la jornada laboral de los\n\naprendices menores de edad y la afiliación a seguridad social y pago de\nprestaciones\nsociales.\nNOTA: Es importante solicitar el permiso al ministerio de trabajo si\nanteriormente no fue solicitado y estar al día con dicha norma.\n Manejo:\n1. Revisar la jornada de los aprendices de 17 años: Asegúrense de\nque la jornada laboral de estos aprendices no exceda las 6 horas\ndiarias y 30 semanales. Si la jornada actual supera este límite,\ndeberán ajustarla inmediatamente.\n2. Asegurar la afiliación y el pago de seguridad social integral:\nDesde el 25 de junio de 2025, estos aprendices deben estar afiliados\na ARL, EPS y Pensión, con los aportes correspondientes a cada etapa\n(lectiva o productiva).\n3. Provisión de prestaciones sociales: Comenzar a provisionar y\npagar las prestaciones sociales (cesantías, intereses a cesantías,\nprimas, vacaciones) desde la entrada en vigencia de la Ley.\n4. Otrosí: Si bien la ley tiene efecto inmediato, la firma de un otrosí al\ncontrato de aprendizaje vigente podría ser una buena práctica para\ndejar constancia de la actualización del contrato a las nuevas\ncondiciones de la Ley 2466 de 2025.\n\nEn resumen, la Circular 0083 de 2025 y la Ley 2466 de 2025 implican cambios\nsignificativos en el contrato de aprendizaje, convirtiéndolo en una relación laboral\nespecial. Esto conlleva la obligación de pagar seguridad social integral y\nprestaciones sociales a partir de la vigencia de la Ley, incluso para los contratos ya\nexistentes, pero sin retroactividad. Para los aprendices menores de edad, se deben\najustar las jornadas laborales a lo establecido en la nueva normativa.\"\n\n\n\n\n\n\n-Si la preguna es relacionada con \"Preguntas Frecuentes de los Empresarios\nRespecto a Ley 2466 Del 2025\", las respuestas pueden variar, entonces verifica correctamente y responde con la respuesta necesaria:\n\n\n\n\n\nej: \" Cómo está estipulado el pago del salario en etapa lectiva para los aprendices.\nEl salario en etapa lectiva comprende del 75% de SMLMV más el pago de Salud y\nARL.\n\n ¿Cómo está estipulado el pago del salario en etapa productiva?\n\nSe debe pagar el 100% del SMLMV, sumado todo lo de ley: Auxilio de transporte,\ncesantías, intereses cesantías, Parafiscales (caja de compensación) salud, pensión,\nARL, vacaciones y primas que den a lugar.\n\n ¿Desde cuándo empieza la vigencia de esta ley 2466 del 2025?\ncon la publicación de la Ley 2466 de 2025 en la gaceta oficial del 25, de junio entró\nen vigor con la publicación.\n\n Puedo cumplir el total de mi cuota regulada con aprendices universitarios\nSolo el 25% de la cuota regulada podrán ser estudiantes universitarios\n A quien debo elevar las consultas o escalar inquietudes frente al contrato de\naprendizaje\n\nDebido al carácter laboral del contrato de aprendizaje y a su nueva denominación\nContrato Laboral Especial, cualquier consulta o inquietud deberá elevarse al\nministerio de trabajo al siguiente correo electrónico\nsolucionesdocumental@mintrabajo.gov.co\n ¿Este cambio en el contrato de aprendizaje aplica para todas las entidades\nde formación, o solo para aprendices Sena??\nLos cambios legislativos en materia de contrato de aprendizaje aplican para todas\nlas instituciones de formación y también para las instituciones universitarias, es decir\ntodos los y las aprendices son beneficiarios con la nueva ley 2466 del 2025.\n ¿Si contrate un aprendiz antes de la vigencia de esta ley, debo modificar los\nvalores a pagar a como lo establece la Ley 2466?\nNo, esta ley NO es de carácter retroactivo, es decir que los contratos firmados antes\ndel 26 de junio están cobijados bajo la ley 789 del 2000 por lo cual no se deben\nmodificar los valores de los apoyos de sostenimiento. A menos que el ministerio\nde trabajo emita un acto administrativo al respecto, por el momento no se deben\nmodificar dichos valores.\n\n Si contrate a un aprendiz en etapa lectiva y pasa a productiva después de\nsancionada esta Ley debo cambiar los valores a pagar cuando entre en\nproductiva.\nNo, como la ley NO es retroactiva, y ya está celebrado y/o suscrito el contrato de\naprendizaje se mantiene con la ley 789 de 2000. A menos que el ministerio de\ntrabajo emita un acto administrativo al respecto, por el momento no se deben\nmodificar dichos valores.\n Quién se encarga de avalar los contratos de aprendizaje que se suscriban\ncon menores de edad\nSerá el ministerio de trabajo, quien defina la ruta a seguir debido al carácter laboral\ndel contrato de aprendizaje.\n ¿La minuta para contratar aprendices será un formato estándar que, desde\nel SENA se de a los empresarios, se puede seguir descargando del SGVA?\nNo, no habrá minuta estándar en el SGVA, ya que, al ser un contrato laboral, cada\nempresa debe elaborar su contrato de acuerdo con las funciones y el reglamento\ninterno de trabajo de cada empresa.\n Cuanto es la duración máxima del contrato de aprendizaje.\nLa duración máxima del contrato de aprendizaje será de 36 meses, es decir 3 años.\n ¿Puedo a alagar el contrato laboral especial de aprendizaje por tres años?\nEl contrato debe estar en concordancia con el diseño curricular del programa y no\npuede ser mayor a los periodos establecidos en este diseño, en sus dos etapas (la\nlectiva y la práctica)\n ¿cuáles serían los beneficios tangibles y diferenciales que esta figura\nseguiría ofreciendo a las empresas frente a la contratación directa de un\ntrabajador tradicional?\nRecordemos que la contratación de aprendices es una obligación para las empresas\nque tienen más de 15 trabajadores, por lo cual contara con una cuota regulada, que\ndefine el número de aprendices a contratar o el valor a monetizar, Es de indicar que\nesta cuota regulada es exclusiva para la contratación de aprendices y no de un\ntrabajador adicional.\n ¿Cómo funcionarían las vacaciones de los aprendices?\nDe acuerdo a lo estipulado en el código sustantivo de trabajo.\n ¿Cuál es el nivel de riesgo al que se tiene que afiliar el aprendiz en etapa\nlectiva?\n\nEl nivel de riesgo en etapa lectiva corresponde al mismo nivel de la etapa productiva,\nes decir según lo que este definido adicional en concordancia con las funciones y\nactividades a ejecutar en su etapa productiva.\n\n El Ingreso Base de cotización es el SMLMV completo para pagos de\nseguridad social, en la Ley 2466 de 2025 se establece el pago del 75% del\nSMLMV en etapa lectiva, por lo cual se solicita confirmar si es viable que\nse realice algún tipo de modificación en el código de la planilla de pagos\nque permita realizar el pago sobre la base del 75% del SMLMV.\n\n En los casos de pagos de seguridad social al aprendiz, se requiere confirmar\nsi estará a cargo del empleador el 100% de los conceptos.\nSi, la empresa o empleador debe asumir el 100% de los costos de seguridad social\nen etapa lectiva.\n\n Cubrimiento de riesgos durante etapa lectiva, quién es el responsable, las\nempresas deben asegurarse de algunos cumplimientos durante esta etapa,\nentendiéndose que los aprendices están bajo el SENA y en el ambiente del\nSENA y no bajo supervisión de los empresarios. ¿Quién asume esta\nresponsabilidad?\nLa responsabilidad de la afiliación será del empleador y será obligación del aprendiz\ncumplir con las normas de seguridad y salud en el trabajo especificadas en las\npolíticas de la empresa y del Sena.\nEl Sena en su rol de formación tendrá corresponsabilidad en la mitigación de los\nriesgos en los ambientes de formación, así como de generar las inspecciones e\ninformes que requiera la empresa y la ARL.\n ¿Cómo se reportan los accidentes de trabajo en etapa lectiva?\nLas empresas deberán generar un flujo de comunicación y de procesos en conjunto con el\nSENA y así establecer un protocolo ante estos casos.\n ¿Qué es un accidente de trabajo durante la etapa lectiva?\nLos accidentes que se den en los ambientes de formación y cuando el aprendiz se\nencuentre en su formación adquiriendo sus conocimientos y competencias\nlaborales.\n\n ¿Los instructores de seguimiento van a seguir existiendo?\nSi el Rol del instructor de seguimiento sigue existiendo, el instructor va a verificar\nque la etapa practica se cumplan la adquisición del conocimiento necesario para\nadquirir las competencias laborales que indica el diseño curricular, esto para que el\naprendiz pueda certificarse.\n ¿Qué implicaciones van a tener frente a las novedades del contrato el rol de\ninstructor de seguimiento?, ellos tienen que hacer parte del proceso de\nterminación de un contrato o ya la empresa se va a regir únicamente por las\nnormas en materia laboral.\nLa terminación del contrato estará regida por el código sustantivo del trabajo, es\ndecir que en la etapa productiva el aprendiz está obligado a cumplir el reglamento\ninterno de trabajo y la empresa está obligada a cumplir el código sustantivo del\ntrabajo, y ante cualquier diferencia entre las partes será el ministerio de trabajo el\nencargado de dirimir dichas situaciones que se den en el marco del contrato laboral\nespecial. Por lo cual el instructor de seguimiento no tiene ninguna competencia al\nrespecto.\n ¿La terminación por justa causa opera bajo las normas del código sustantivo\ndel trabajo o tienen alguna particularidad frente a estos contratos con\naprendices?\nLa terminación del contrato estará regida por el código sustantivo del trabajo, es\ndecir que en la etapa productiva el aprendiz está obligado a cumplir el reglamento\ninterno de trabajo y la empresa está obligada a cumplir el código sustantivo del\ntrabajo, y ante cualquier diferencia entre las partes será el ministerio de trabajo el\nencargado de dirimir dichas situaciones que se den en el marco del contrato laboral\nespecial.\n ¿Cuál sería el manejo de las incapacidades? ¿Se continúa haciendo el\nregistro en la plataforma? por el tema de las prestaciones qué se hace, pues\nse afectan cuando el contrato se suspende por incapacidades. Es decir que\nel contrato se puede suspender, pero genera un cargo adicional al momento\nde calcular las prestaciones.\n\n ¿Cómo se hace con el tipo de cotizante? ¿Sigue siendo 12 y 19? ¿O\ncambian?\n\n Para diferenciar los que son aprendices de los trabajadores normales.\n\nCon la nueva ley 2466 del 2025, se debe especificar que la relación entre empresa\ny aprendiz cambia sustancialmente, por lo que debemos referirnos a un nuevo\ntérmino acuñado durante esta reforma APRENDIZ – TRABAJADOR, lo cual hace\nreferencia que en la etapa lectiva hablaremos de Aprendiz y en la etapa práctica de\ntrabajador, (es decir que el aprendiz cumplirá el rol de un trabajador).\n Cuando se termina un contrato debo pagar indemnización, por ejemplo, si al\nmes se quiere sacar, ¿le deben pagar indemnización por los 5 meses? Ya\nque es un contrato a término fijo.\nEl contrato este supeditado por la jurisprudencia establecida en el código sustantivo\ndel trabajo. El ministerio de trabajo será el encargado de generar el arbitraje para\ndirimir las posibles situaciones que se generen dentro del contrato especial laboral.\nPara lo cual habilito el siguiente correo electrónico\nsolucionesdocumental@mintrabajo.gov.co\n ¿Ya está establecido cómo afiliar a los aprendices? para la pensión? ¿O se\nafilian como dependientes? ¿Cómo se diferencian del primer empleo?\nLa afiliación de los aprendices se realizará como lo establece el código sustantivo\nde trabajo, de acuerdo con el carácter laboral de este contrato establecido en la ley\n2466 del 2025.\n ¿Parafiscales SENA e ICBF les aplican a ellos?\n\n ¿Deben dar preaviso, tendría periodo de prueba?\nEl contrato este supeditado por la jurisprudencia establecida en el código sustantivo\ndel trabajo. El ministerio de trabajo será el encargado de generar el arbitraje para\ndirimir las posibles situaciones que se generen dentro del contrato especial laboral.\nPara lo cual habilito el siguiente correo electrónico\nsolucionesdocumental@mintrabajo.gov.co\n ¿Las empresas pueden acordar dar las horas extras?\nEl contrato este supeditado por la jurisprudencia establecida en el código sustantivo\ndel trabajo. El ministerio de trabajo será el encargado de generar el arbitraje para\ndirimir las posibles situaciones que se generen dentro del contrato especial laboral.\nPara lo cual habilito el siguiente correo electrónico\nsolucionesdocumental@mintrabajo.gov.co\n\n ¿Liquidación desde etapa productiva o desde lectiva?\n De acuerdo a las instrucciones los aprendices SENA van a ganar más que\nlos trabajadores normales que ganen el mínimo debido a que los aprendices\nno se les descuenta el 4% de salud y 4% de pensión?\n\n La fórmula de la monetización continúa siendo la misma o aparte de cambiar\nel valor de 1 a 1.5 SMMLV cambia algo más para calcular esta monetización?\nNo hay formula, se calcula sobre el 1.5 SMMLV\n ¿Los contratos que se tienen desde etapa lectiva se pueden ceder al SENA\npara su etapa productiva?\nLos acuerdos de voluntades se mantienen, y efectivamente se pueden ceder al\nSena y/o otra institución para que los aprendices puedan realizar su etapa práctica.\n ¿Los contratos de etapa lectiva deben quedar como contratos laborales o\nesta modalidad es solo para la etapa productiva?\nExiste la celebración de un solo contrato, por lo que el carácter laboral se mantiene\nen las dos etapas, pero con las consideraciones especiales que informa la Ley 2466\ndel 2025, sobre el contrato laboral especial.\n ¿Los contratos de aprendizaje de otras instituciones y universitarios deben\nquedar también como contratos especial laboral a término fijo?\nSi, las nuevas consideraciones de la Ley 2466 de 2025 aplican par todos los\naprendices incluidos los de otras instituciones y los estudiantes universitarios.\n ¿Cambiará la circular 168 de 2015 para calcular la monetización?\nEfectivamente, la circular queda derogada, y en los próximos días saldrá la nueva\ncircular.\n ¿Se pueden seguir patrocinando solo desde etapa practica o debe hacerse\ndesde etapa lectiva?\nSi, la empresa decide en que etapa contratar a los aprendices.\n\n La empresa debe asumir el 100% del pago de prestaciones seguridad social,\nlos porcentajes de salud, pensión y riesgos o debe ser compartida como se\nhace normalmente con los contratos laborales?\n\nSi, la empresa debe asumir el 100% de la carga prestacional de los aprendices.\n Los contratos de etapa lectiva se paga solamente salud, pensión y riesgos o\ntambién todas las demás prestaciones.\nEl salario en etapa lectiva comprende del 75% de SMLV más el pago de Salud y\nARL.\n\nRESPUESTA GENÉRICA\n\nBuenos días señor empresario,\nReciba un cordial saludo desde el SENA Dirección Distrito Capital.\nEn atención a su comunicación relacionada con la Ley 2466 de 2025, nos\npermitimos informarle que esta fue firmada y publicada oficialmente el día 25 de\njunio del año en curso, por lo tanto, su entrada en vigor está a partir de la misma.\nSi embargo, la entidad se encuentra a la espera de los lineamientos oficiales que\nemitirá el Ministerio de Trabajo para su adecuada implementación, los cuales serán\ncomunicados oportunamente a los empresarios y demás actores involucrados.\nDado el carácter laboral del Contrato de Aprendizaje, consultas adicionales\nrelacionadas con la aplicación de esta Ley, puede ser dirigida al correo del Ministerio\nde Trabajo:\nsolucionesdocumental@mintrabajo.gov.co.\nQuedamos atentos a cualquier inquietud adicional.\"\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.1,
+      "position": [
+        1008,
+        64
+      ],
+      "id": "79f93a6e-24f5-4f10-a387-60a7e86fb314",
+      "name": "Agente de quejas"
+    },
+    {
+      "parameters": {
+        "operation": "move",
+        "messageId": {
+          "__rl": true,
+          "value": "={{ $('Combinar mensaje completo').item.json.id_original }}",
+          "mode": "id"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "AQMkADAwATM3ZmYAZS0yNmEyLWY1ZjMtMDACLTAwCgAuAAAD4Hj2dFTz4E_u_0bsFch8vwEAnp4Ar16tJbFMqk_B-d7T4nsABVkbbYoAAAA=",
+          "mode": "list",
+          "cachedResultName": "Reclamos",
+          "cachedResultUrl": "https://outlook.office365.com/mail/AQMkADAwATM3ZmYAZS0yNmEyLWY1ZjMtMDACLTAwCgAuAAAD4Hj2dFTz4E_u_0bsFch8vwEAnp4Ar16tJbFMqk_B%2Fd7T4nsABVkbbYoAAAA%3D"
+        }
+      },
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        304,
+        880
+      ],
+      "id": "dc820a43-9656-4a6d-85f4-a64a8c28b71e",
+      "name": "Carpeta Reclamos",
+      "webhookId": "fcebc76a-9cb6-4516-b7df-3cdbb4acf9f0",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "QI4vXHpO5jiZuoHH",
+          "name": "Microsoft Outlook account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Este es el correo:  {{ $('Clasificador de los correos').item.json.message.content }}",
+        "options": {
+          "systemMessage": "=#iMPORTANTE!\n\n-Comienza la repuesta con \"{/n asunto + cuerpo \\n}\"\"\n\n\n## INSTRUCCIONES PARA EL AGENTE DE IA – CATEGORÍA: RECLAMOS\n\nTú eres un agente de inteligencia artificial especializado en la gestión y respuesta automatizada de correos electrónicos de la categoría \"Reclamos\". Operas dentro de un flujo automatizado diseñado en n8n, y tu tarea es generar respuestas profesionales, empáticas, claras y orientadas a resolver la inconformidad reportada por el remitente.\n\n### OBJETIVO:\nAnaliza el contenido del correo clasificado como \"Reclamo\", incluyendo los archivos adjuntos si existen. Identifica el motivo del reclamo y responde de forma adecuada siguiendo estos principios:\n\n1. Reconoce y valida el reclamo del usuario.\n2. Ofrece una disculpa institucional si aplica.\n3. Proporciona información útil y concreta sobre cómo se gestionará el reclamo.\n4. Indica los pasos siguientes o canales adicionales de atención si es necesario.\n5. Utiliza un tono respetuoso, serio y comprometido con la mejora del servicio.\n\n### FORMATO DE SALIDA:\n**TU RESPUESTA DEBE SER UN OBJETO JSON VÁLIDO. NO INCLUYAS NINGÚN TEXTO FUERA DEL JSON.**\n\n\nEl objeto JSON debe tener las siguientes dos claves:\n\n- `\"asunto\"`: Un string con el asunto del correo, conciso y descriptivo. Ejemplo: `\"Seguimiento a su reclamo por [Motivo Detectado]\"`.\n- `\"cuerpo\"`: Un string con el contenido del correo, estructurado de la siguiente manera:\n\n  1. Saludo personalizado: Dirígete al remitente de forma amable (Ej: \"Cordial saludo Estimado/a [Nombre del Remitente],\").\n  2. **Reconocimiento**: Agradece al remitente por comunicar su reclamo y valida su inconformidad.\n  3. **Desarrollo**:\n     - Resume brevemente el motivo del reclamo, según el análisis del contenido del correo y sus adjuntos.\n     - Brinda una explicación institucional o justificación si corresponde.\n     - Describe las acciones que se tomarán o los pasos que puede seguir el usuario.\n  4. **Cierre cordial**: Reafirma el compromiso institucional y despídete con amabilidad.\n  5. **Firma final**: Incluye la firma `\"Atentamente,\\nDon Pepe\\nÁrea de Relaciones Corporativas\"`.\n\n### PAUTAS ADICIONALES:\n- Usa lenguaje formal, claro, empático y profesional.\n- No inventes datos ni prometas acciones que no estén sustentadas en el mensaje original.\n- Si el correo o adjuntos no ofrecen suficiente información, sugiere al remitente que se comunique de manera mas clara .\n\n### IMPORTANTE:\n- Solo responde a correos previamente clasificados como \"Reclamos\" por el sistema de n8n.\n- Lee y analiza también los documentos adjuntos al correo, si los hay, para comprender mejor la situación.\n- NO INCLUYAS ningún texto fuera del objeto JSON de respuesta.\n\n### HERRAMIENTA:\nUsa \"Create mensaje\" para enviar el correo de respuesta al remitente.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.1,
+      "position": [
+        1056,
+        656
+      ],
+      "id": "5f455423-969b-492c-8bef-76f6636b31e7",
+      "name": "Agente Reclamos"
+    },
+    {
+      "parameters": {
+        "inputText": "={{ $json.message.content }}",
+        "categories": {
+          "categories": [
+            {
+              "category": "Quejas",
+              "description": "Expresiones de insatisfacción sobre servicios, atención, procesos o funcionamiento general, SIN afectación económica o contractual directa.\nEjemplos - APRENDICES:\n\n\"El instructor llega tarde constantemente\"\n\"La plataforma Sofia Plus no funciona correctamente\"\n\"Demoran mucho en responder correos\"\n\"Los equipos del laboratorio están obsoletos\"\n\nEjemplos - EMPRESAS:\n\n\"La calidad de la formación no cumple expectativas\"\n\"El instructor asignado no tiene experiencia en el tema\"\n\"Los horarios no se adaptan a nuestras necesidades\"\n\"La coordinación del programa ha sido deficiente\"\n\nEjemplos - PROVEEDORES/CONTRATISTAS:\n\n\"Los pagos siempre se demoran sin justificación\"\n\"El proceso de facturación es muy complicado\"\n\"La atención en el área de compras es pésima\"\n\"No responden a nuestras consultas comerciales\"\n\nEjemplos - COMUNIDAD:\n\n\"No hay suficientes cupos para la demanda\"\n\"La atención al público es muy lenta\"\n\"Los horarios no son convenientes para trabajadores\"\n\"Falta información clara sobre los programas\"\n\nPalabras clave: insatisfecho, molesto, demora, lento, deficiente, no funciona, pésimo, complicado."
+            },
+            {
+              "category": "Reclamos",
+              "description": "Manifestaciones de inconformidad que implican vulneración de derechos, incumplimiento contractual, afectación económica o irregularidades que requieren solución formal.\nEjemplos - APRENDICES:\n\n\"Me cancelaron la matrícula sin debido proceso\"\n\"No me entregaron el certificado después de completar el curso\"\n\"Me discriminaron en el proceso de selección\"\n\"Perdí mi cupo por información errónea\"\n\nEjemplos - EMPRESAS:\n\n\"No cumplieron con las horas pactadas en el convenio\"\n\"El servicio contratado no se ejecutó según lo acordado\"\n\"Nos cobraron servicios que no recibimos\"\n\"Incumplieron los términos del contrato de formación\"\n\nEjemplos - PROVEEDORES/CONTRATISTAS:\n\n\"No me han pagado facturas vencidas hace 3 meses\"\n\"Cancelaron el contrato sin justificación válida\"\n\"Me solicitaron documentos no estipulados en el contrato\"\n\"Hay irregularidades en el proceso de evaluación\"\n\nEjemplos - COMUNIDAD:\n\n\"Me negaron el acceso a formación por mi condición\"\n\"No reconocen mi experiencia laboral para certificación\"\n\"Vulneraron mi derecho a la educación gratuita\"\n\nPalabras clave: incumplimiento, vulneración, cancelación, discriminación, cobro indebido, no pagaron, irregularidades, derechos."
+            },
+            {
+              "category": "Peticiones",
+              "description": "Solicitudes de información, servicios, trámites, consultas o cualquier requerimiento que NO implique una inconformidad.\nEjemplos - APRENDICES:\n\n\"Necesito información sobre cursos disponibles en mi región\"\n\"¿Cómo puedo descargar mi certificado de la plataforma?\"\n\"Solicito homologación de mi experiencia laboral\"\n\"Quisiera conocer los requisitos para formación virtual\"\n\nEjemplos - EMPRESAS:\n\n\"Necesitamos cotización para capacitación empresarial\"\n\"¿Qué programas de formación dual ofrecen?\"\n\"Solicito información sobre convenios de práctica empresarial\"\n\"Queremos contratar servicios de consultoría organizacional\"\n\"¿Cómo podemos acceder a programas de bilingüismo para empleados?\"\n\nEjemplos - PROVEEDORES/CONTRATISTAS:\n\n\"Solicito información sobre procesos de contratación vigentes\"\n\"¿Cuáles son los requisitos para ser proveedor del SENA?\"\n\"Necesito el cronograma de pagos pendientes\"\n\"Quisiera conocer el estado de mi propuesta comercial\"\n\nEjemplos - COMUNIDAD/ENTIDADES:\n\n\"¿Ofrecen formación gratuita para adultos mayores?\"\n\"Necesitamos alianza para proyecto social en nuestra comunidad\"\n\"Solicito información sobre programas de emprendimiento\"\n\"¿Tienen servicios de certificación de competencias laborales?\"\n\nPalabras clave: solicito, necesito, quisiera, información, consulta, cotización, convenio, alianza, certificación, requisitos."
+            },
+            {
+              "category": "Otros",
+              "description": "=Correos que no tengan nada que ver con PQR \n\nPeticiones,Quejas o reclamos"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "typeVersion": 1.1,
+      "position": [
+        -112,
+        976
+      ],
+      "id": "86284ee0-b46a-48d7-ab16-e070daa8bfae",
+      "name": "Clasificador de los correos"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -128,
+        816
+      ],
+      "id": "ce225e8b-d38b-4f69-9da6-c1ee47fb04e4",
+      "name": "IA-Analiza y clasifica",
+      "credentials": {
+        "openAiApi": {
+          "id": "IsaxeK5fZb9C47MY",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "async function run() {\n  const items = await $input.all();\n\n  const primerItem = items[0]?.json || {};\n\n  const asunto = primerItem.subject || \"Sin asunto\";\n  const cuerpoHtml = primerItem.content || \"Sin cuerpo\";\n  const idMensaje = primerItem.id || null; // 🔁 Aquí tomamos el ID\n  const ResponderA = $('extraer asunto y cuerpo').first().json.from || null; \n\n  // Quitar etiquetas HTML del cuerpo\n  const cuerpoTextoPlano = cuerpoHtml.replace(/<[^>]+>/g, '').trim();\n\n  // Procesar todos los adjuntos\n  const adjuntos = items.map((item, index) => {\n    const nombre = item.json.nombre || `Adjunto ${index + 1}`;\n    const contenido = item.json.texto_extraido || \"Sin contenido\";\n    return `📎 Adjunto ${index + 1}: ${nombre}\\n📄 Contenido:\\n${contenido}\\n`;\n  });\n\n  const mensaje = `🧾 Asunto: ${asunto}\\n\\n📝 Cuerpo:\\n${cuerpoTextoPlano}\\n\\n${adjuntos.join('\\n')}`;\n\n  return {\n    json: {\n      asunto,\n      cuerpo: cuerpoTextoPlano,\n      adjuntos,\n      mensaje,\n      id_original: idMensaje,\n      para: ResponderA\n    }\n  };\n}\n\nreturn run();\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        432,
+        384
+      ],
+      "id": "83d35c4e-4556-44b5-b4a5-b6364d7e6b45",
+      "name": "Combinar mensaje completo"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        256,
+        192
+      ],
+      "id": "9ec83417-8588-44c2-b4fb-65c64d1560d1",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "jsCode": "// nodo: 'extraer cuerpo y asunto'\nreturn {\n  json: {\n    id : $input.first().json.id || \"No reconocido\",\n    from: $input.first().json.from.emailAddress.address || \"No reconocido\",\n    subject: $json.subject || \"Sin asunto\",\n    content: $json.body?.content || \"Sin cuerpo\"\n    \n  }\n}\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -512,
+        176
+      ],
+      "id": "cdc56573-bd90-4b87-8833-cf6d40474bca",
+      "name": "extraer asunto y cuerpo"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=este es un correo entrante:{{ $json.mensaje }}\n"
+            },
+            {
+              "content": "=Revisa el correo electrónico entrante y límpialo para que sea más legible. Elimina las etiquetas HTML, pero no elimines el contenido del correo ni tampoco edites agregando texto al cuerpo del mensaje. no responadas nada mas, solo el mensaje limpio y no interfieras con los documentos adjuntos en el correo."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -512,
+        944
+      ],
+      "id": "34c090ae-0d9a-4b28-a1e6-800a5e284e5e",
+      "name": "Limpia el cuerpo del correo",
+      "credentials": {
+        "openAiApi": {
+          "id": "IsaxeK5fZb9C47MY",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://graph.microsoft.com/v1.0/me/messages/{{ $('Microsoft Outlook Trigger').item.json.id }}/attachments",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "microsoftOutlookOAuth2Api",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -512,
+        368
+      ],
+      "id": "c882e022-54b4-4051-8886-60631cf34b32",
+      "name": "Pasar de binario a base 64",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "QI4vXHpO5jiZuoHH",
+          "name": "Microsoft Outlook account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://737444cd0d6f.ngrok-free.app/procesar-todo",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        32,
+        368
+      ],
+      "id": "47f69c68-5213-4ab5-b4a4-9f5c247e28a8",
+      "name": "pasar de base 64 a texto plano"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Este nodo detecta todos los archivos en $json.value y los prepara para enviarlos a Flask\nconst archivos = [];\n\nfor (let i = 0; i < $json.value.length; i++) {\n  const adjunto = $json.value[i];\n\n  if (adjunto && adjunto.contentBytes && adjunto.name) {\n    archivos.push({\n      nombre: adjunto.name,\n      contenido: adjunto.contentBytes\n    });\n  }\n}\n\nreturn [\n  {\n    json: {\n      archivos\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -224,
+        368
+      ],
+      "id": "25590457-5995-47c4-9352-5f882170c817",
+      "name": "Obtener varios archivos"
+    },
+    {
+      "parameters": {
+        "operation": "move",
+        "messageId": {
+          "__rl": true,
+          "value": "={{ $('Combinar mensaje completo').item.json.id_original }}",
+          "mode": "id"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "AQMkADAwATM3ZmYAZS0yNmEyLWY1ZjMtMDACLTAwCgAuAAAD4Hj2dFTz4E_u_0bsFch8vwEAnp4Ar16tJbFMqk_B-d7T4nsABVkbbZAAAAA=",
+          "mode": "list",
+          "cachedResultName": "Otros",
+          "cachedResultUrl": "https://outlook.office365.com/mail/AQMkADAwATM3ZmYAZS0yNmEyLWY1ZjMtMDACLTAwCgAuAAAD4Hj2dFTz4E_u_0bsFch8vwEAnp4Ar16tJbFMqk_B%2Fd7T4nsABVkbbZAAAAA%3D"
+        }
+      },
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        304,
+        1296
+      ],
+      "id": "3f116731-74df-4ca6-9acb-5773bd1b71e1",
+      "name": "Carpeta Otros",
+      "webhookId": "2e71d2fc-6e9b-469d-9b86-2d404885c7d8",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "QI4vXHpO5jiZuoHH",
+          "name": "Microsoft Outlook account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Este es el correo:  {{ $('Clasificador de los correos').item.json.message.content }}",
+        "options": {
+          "systemMessage": "=#iMPORTANTE!\n\n-Comienza la repuesta con \"{/n asunto + cuerpo \\n}\"\"\n\n\n## INSTRUCCIONES PARA EL AGENTE DE IA – CATEGORÍA: OTROS\n\nTú eres un agente de inteligencia artificial especializado en la gestión y respuesta automatizada de correos electrónicos clasificados dentro de la categoría \"Otros\". Operas dentro de un flujo automatizado diseñado en n8n, y tu tarea es generar respuestas profesionales, claras, empáticas y adecuadas al contenido del mensaje recibido.\n\n### OBJETIVO:\nAnaliza el contenido del correo clasificado como \"Otros\", incluyendo documentos adjuntos si los hay. Identifica el motivo principal del mensaje (consulta general, sugerencia, información, comentario, etc.) y responde de manera apropiada, cumpliendo con los siguientes principios:\n\n1. Reconoce y valida el contenido del mensaje del usuario.\n2. Agradece el contacto de manera institucional.\n3. Brinda una respuesta concreta y útil de acuerdo al contenido.\n4. Indica pasos siguientes, plazos o canales adicionales si aplica.\n5. Utiliza un tono respetuoso, claro y representativo de la organización.\n\n### FORMATO DE SALIDA:\n**TU RESPUESTA DEBE SER UN OBJETO JSON VÁLIDO. NO INCLUYAS NINGÚN TEXTO FUERA DEL JSON.**\n\n\nEl objeto JSON debe tener las siguientes claves:\n\n- `\"asunto\"`: Un string con el asunto del correo, claro y adecuado al contenido. Ejemplo: `\"Respuesta a su mensaje - [Resumen del motivo]\"`.\n- `\"cuerpo\"`: Un string con el texto principal del mensaje, estructurado así:\n\n  1. Saludo personalizado: Dirígete al remitente de forma amable (Ej: \"Cordial saludo Estimado/a [Nombre del Remitente],\").\n  2. **Reconocimiento del mensaje**: Agradece la comunicación recibida.\n  3. **Desarrollo del contenido**:\n     - Resume brevemente el contenido del mensaje detectado.\n     - Responde de forma clara y directa según la intención o solicitud.\n     - Si aplica, explica qué acciones se tomarán o cómo puede acceder a más información.\n     - Menciona un canal de contacto si se requiere seguimiento.\n  4. **Cierre cordial**: Reafirma el compromiso institucional y despídete de forma amable.\n  5. **Firma final**: Cierra el mensaje con `\"Atentamente,\\nDon Pepe\\nÁrea de Relaciones Corporativas\"`.\n\n### PAUTAS ADICIONALES:\n- Usa un lenguaje claro, profesional y empático.\n- No inventes datos ni realices promesas que no estén respaldadas por el contenido del mensaje.\n- Si el correo no ofrece información suficiente para dar una respuesta concreta, invita al remitente a comunicarse por un canal adicional.\n- Si el correo contiene archivos adjuntos, léelos e incorpóralos en tu análisis si son relevantes para la respuesta.\n- No incluyas enlaces que el usuario no haya mencionado.\n\n### IMPORTANTE:\n- Esta instrucción se aplica únicamente a correos previamente clasificados como “Otros” por el sistema n8n.\n- No respondas mensajes clasificados como reclamos, quejas o peticiones.\n- NO INCLUYAS texto adicional fuera del objeto JSON.\n\n### HERRAMIENTA:\nUsa como herramienta simple vector store, para acceder a un conjunto de respuestas ya definidas a preguntas comunes, si el correo tiene un pregunta que esta relacionada con el vector, responde con la respuesta que ya esta definida.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.1,
+      "position": [
+        1056,
+        1744
+      ],
+      "id": "d059d134-ad49-473c-adc5-aefedf3a8871",
+      "name": "Agente de otros"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"firmaHtml\": \"<table style=\\\"text-align: left; background-color: rgb(255, 255, 255);\\\"><tbody><tr><td style=\\\"text-align: left; width: 147px; height: 154px;\\\"><img src=\\\"https://www.sena.edu.co/es-co/Noticias/PublishingImages/mail/Logo-Firma-Email-SENAgray.png\\\" alt=\\\"Logo SENA\\\" width=\\\"145\\\" height=\\\"142\\\" style=\\\"width: 145px; height: 142px; margin: 0px;\\\"></td><td style=\\\"text-align: left; vertical-align: top; width: 372px; height: 154px;\\\"><div style=\\\"margin: 0px; max-width: 445px;\\\"><table><tbody><tr><td><table><tbody><tr><td style=\\\"border-left: 2px solid rgb(226, 227, 228); width: 13px;\\\"></td><td style=\\\"vertical-align: top; width: 339px;\\\"><p style=\\\"margin: 0px; font-family: 'Work Sans'; font-size: 20px; color: rgb(57, 169, 0);\\\">Ingeniero Jeison</p><p style=\\\"margin: 0px; letter-spacing: 1px; font-family: 'Work Sans'; font-size: 12px; color: rgb(118, 119, 124);\\\">Centro de servicios financieros</p><p style=\\\"margin: 0px; letter-spacing: 1px; font-family: 'Work Sans'; font-size: 12px; color: rgb(118, 119, 124);\\\"><span style=\\\"color: rgb(17, 85, 204);\\\"><a href=\\\"mailto:penarandasm@sena.edu.co\\\">correo@soy.sena.edu.co</a></span></p><p style=\\\"margin: 0px; letter-spacing: 1px; font-family: 'Work Sans'; font-size: 12px; color: rgb(118, 119, 124);\\\">Avenida 100</p></td></tr></tbody></table></td></tr><tr><td style=\\\"height: 5px;\\\"></td></tr><tr><td><table><tbody><tr><td style=\\\"width: 10px;\\\"></td><td style=\\\"width: 20px;\\\"><table align=\\\"center\\\" style=\\\"width: 126px;\\\"><tbody><tr><td><a href=\\\"https://www.instagram.com/senacomunica/?hl=es-la\\\" target=\\\"_blank\\\"><img src=\\\"https://www.sena.edu.co/es-co/Noticias/PublishingImages/mail/03-instagramgray.png\\\" alt=\\\"instagram\\\"></a></td><td><a href=\\\"https://www.facebook.com/SENA\\\" target=\\\"_blank\\\"><img src=\\\"https://www.sena.edu.co/es-co/Noticias/PublishingImages/mail/04-facebookgray.png\\\" alt=\\\"Facebook\\\"></a></td><td><a href=\\\"https://twitter.com/SENAComunica\\\" target=\\\"_blank\\\"><img src=\\\"https://www.sena.edu.co/es-co/Noticias/PublishingImages/mail/05-twittergray.png\\\" alt=\\\"Twitter\\\"></a></td><td><a href=\\\"https://www.youtube.com/user/SENATV\\\" target=\\\"_blank\\\"><img src=\\\"https://www.sena.edu.co/es-co/Noticias/PublishingImages/mail/06-youtubegray.png\\\" alt=\\\"Youtube\\\"></a></td><td><a href=\\\"https://www.linkedin.com/school/servicio-nacional-de-aprendizaje-sena-/\\\" target=\\\"_blank\\\"><img src=\\\"https://www.sena.edu.co/es-co/Noticias/PublishingImages/mail/09-ingray.png\\\" alt=\\\"Linkedin\\\"></a></td></tr><tr><td colspan=\\\"5\\\"><img src=\\\"https://www.sena.edu.co/es-co/Noticias/PublishingImages/mail/07-redes.png\\\" alt=\\\"Redes\\\"></td></tr></tbody></table></td><td style=\\\"width: 165px;\\\"><p style=\\\"margin: 0px;\\\"><a href=\\\"https://www.sena.edu.co/es-co/Paginas/default.aspx\\\" target=\\\"_blank\\\"><img src=\\\"https://www.sena.edu.co/es-co/Noticias/PublishingImages/mail/08-webgrey.png\\\" alt=\\\"SENA\\\"></a></p></td></tr></tbody></table></td></tr></tbody></table></div></td></tr></tbody></table>\"\n}\n",
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1600,
+        272
+      ],
+      "id": "bf6f4a25-1b48-4565-89fb-0d09ed7c8463",
+      "name": "Insertar firma HTML"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nlet asunto = \"Sin asunto\";\nlet cuerpo = \"Sin cuerpo\";\n\n\nconst para = $('Combinar mensaje completo').first().json.para || null;\nconst id_original = $('Combinar mensaje completo').first().json.id_original || null;\n\nfor (const item of items) {\n  if (item.json.subject) {\n    asunto = item.json.subject;\n  }\n  if (item.json.body) {\n    cuerpo = item.json.body;\n  }\n}\n\nconst firma = $('Insertar firma HTML').first().json.firmaHtml || \"\";\n\nreturn {\n  json: {\n    asunto,\n    cuerpo,\n    firma,\n    para,\n    id_original,\n    mensaje_completo: `${cuerpo}<br><br>${firma}`\n  }\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2080,
+        -96
+      ],
+      "id": "78ea1163-8ac3-4b8d-84a9-41980d25fc51",
+      "name": "Combinar mensaje + firma"
+    },
+    {
+      "parameters": {
+        "jsCode": "const agentResponse = $input.first().json.output; \n\ntry {\n  const parsedContent = JSON.parse(agentResponse);\n\n  const subjectOutput = {\n    subject: parsedContent.asunto\n  };\n\n  const bodyOutput = {\n    body: parsedContent.cuerpo\n  };\n\n  // Devolvemos dos ítems separados\n  return [\n    { json: subjectOutput },\n    { json: bodyOutput }\n  ];\n\n} catch (error) {\n  console.error(\"Error al parsear la respuesta del AI Agent:\", error);\n  // Puedes devolver un error o una salida predeterminada si el parseo falla\n  return [{ json: { error: \"Formato de respuesta del AI Agent inválido.\" } }];\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1584,
+        -112
+      ],
+      "id": "b58c61d4-79a2-4d6e-9ae3-84e50c7988ad",
+      "name": "Mensaje + Asunto"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.microsoft.com/v1.0/me/sendMail",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "microsoftOutlookOAuth2Api",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{$json}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2784,
+        192
+      ],
+      "id": "db04c56b-78cf-4e4d-a19e-28a5123a71f9",
+      "name": "Responder correo",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "QI4vXHpO5jiZuoHH",
+          "name": "Microsoft Outlook account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "90c37bac-6707-4f58-9bc3-db1e305a2dae",
+              "name": "para",
+              "value": "={{ $('Combinar mensaje + firma').first().json.para }}",
+              "type": "string"
+            },
+            {
+              "id": "507bab7d-cec7-4f73-b27c-e282b510ee63",
+              "name": "asunto",
+              "value": "={{ $('Combinar mensaje + firma').first().json.asunto }}",
+              "type": "string"
+            },
+            {
+              "id": "459392eb-69b9-4ec3-8a64-0f1e35600dce",
+              "name": "mensaje_completo",
+              "value": "={{ $('Combinar mensaje + firma').first().json.cuerpo.replace(/\\n/g, '<br>') + '<br><br>' + $('Combinar mensaje + firma').first().json.firma }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2336,
+        176
+      ],
+      "id": "995d15da-0e66-4730-8492-2cfa2e8322e0",
+      "name": "Pasar datos a Json"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Procesador especializado para emails con firma HTML incluida en mensaje_completo\nconst inputData = $('Pasar datos a Json').first().json;\n\n// Validación básica de entrada\nconst subject = inputData.asunto || \"Reconocimiento de su queja - Falta de respuesta\";\nconst recipient = inputData.para;\n\nif (!recipient) {\n  throw new Error('El campo \"para\" (destinatario) es requerido');\n}\n\nconst emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;\nif (!emailRegex.test(recipient)) {\n  throw new Error(`Formato de email inválido: ${recipient}`);\n}\n\nif (!inputData.mensaje_completo || inputData.mensaje_completo.trim() === \"\") {\n  throw new Error('El campo \"mensaje_completo\" está vacío o no definido.');\n}\n\n// Preparar HTML directamente desde mensaje_completo\nconst cleanedHtml = inputData.mensaje_completo\n  .replace(/\\s+/g, ' ')       // Comprimir espacios\n  .replace(/>\\s+</g, '><')    // Eliminar espacios entre etiquetas\n  .replace(/\\n|\\r/g, '')      // Eliminar saltos de línea\n  .trim();\n\n// Crear payload para Microsoft Graph API\nconst payload = {\n  message: {\n    subject: subject,\n    body: {\n      contentType: \"HTML\",\n      content: cleanedHtml\n    },\n    toRecipients: [\n      {\n        emailAddress: {\n          address: recipient\n        }\n      }\n    ],\n    importance: \"normal\"\n  },\n  saveToSentItems: true\n};\n\n// Log para depuración\nconsole.log('=== ENVÍO EMAIL HTML ===');\nconsole.log('Asunto:', subject);\nconsole.log('Destinatario:', recipient);\nconsole.log('Longitud HTML:', cleanedHtml.length);\nconsole.log('Contiene firma SENA:', cleanedHtml.includes('Logo-Firma-Email-SENAgray.png'));\nconsole.log('Cantidad de imágenes:', (cleanedHtml.match(/<img/g) || []).length);\nconsole.log('Cantidad de enlaces:', (cleanedHtml.match(/<a/g) || []).length);\nconsole.log('Vista previa HTML:', cleanedHtml.substring(0, 500) + '...');\n\n// Retornar payload\nreturn [{\n  json: {\n    ...payload,\n    _metadata: {\n      htmlLength: cleanedHtml.length,\n      imageCount: (cleanedHtml.match(/<img/g) || []).length,\n      linkCount: (cleanedHtml.match(/<a/g) || []).length,\n      timestamp: new Date().toISOString()\n    }\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2544,
+        -80
+      ],
+      "id": "98c0c2c4-42c3-44df-a31f-616783f61b86",
+      "name": "Renderizar HTML"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1856,
+        80
+      ],
+      "id": "8f9737f9-70b0-44dd-8324-d5d527d391a1",
+      "name": "Ejecutar ambos nodos"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"firmaHtml\": \"<table style=\\\"text-align: left; background-color: rgb(255, 255, 255);\\\"><tbody><tr><td style=\\\"text-align: left; width: 147px; height: 154px;\\\"><img src=\\\"https://www.sena.edu.co/es-co/Noticias/PublishingImages/mail/Logo-Firma-Email-SENAgray.png\\\" alt=\\\"Logo SENA\\\" width=\\\"145\\\" height=\\\"142\\\" style=\\\"width: 145px; height: 142px; margin: 0px;\\\"></td><td style=\\\"text-align: left; vertical-align: top; width: 372px; height: 154px;\\\"><div style=\\\"margin: 0px; max-width: 445px;\\\"><table><tbody><tr><td><table><tbody><tr><td style=\\\"border-left: 2px solid rgb(226, 227, 228); width: 13px;\\\"></td><td style=\\\"vertical-align: top; width: 339px;\\\"><p style=\\\"margin: 0px; font-family: 'Work Sans'; font-size: 20px; color: rgb(57, 169, 0);\\\">Ingeniero Jeison</p><p style=\\\"margin: 0px; letter-spacing: 1px; font-family: 'Work Sans'; font-size: 12px; color: rgb(118, 119, 124);\\\">Centro de servicios financieros</p><p style=\\\"margin: 0px; letter-spacing: 1px; font-family: 'Work Sans'; font-size: 12px; color: rgb(118, 119, 124);\\\"><span style=\\\"color: rgb(17, 85, 204);\\\"><a href=\\\"mailto:ricardomontolivo1197@outlook.com\\\">ricardoelpro@soy.sena.edu.co</a></span></p><p style=\\\"margin: 0px; letter-spacing: 1px; font-family: 'Work Sans'; font-size: 12px; color: rgb(118, 119, 124);\\\">Avenida 100</p></td></tr></tbody></table></td></tr><tr><td style=\\\"height: 5px;\\\"></td></tr><tr><td><table><tbody><tr><td style=\\\"width: 10px;\\\"></td><td style=\\\"width: 20px;\\\"><table align=\\\"center\\\" style=\\\"width: 126px;\\\"><tbody><tr><td><a href=\\\"https://www.instagram.com/senacomunica/?hl=es-la\\\" target=\\\"_blank\\\"><img src=\\\"https://www.sena.edu.co/es-co/Noticias/PublishingImages/mail/03-instagramgray.png\\\" alt=\\\"instagram\\\"></a></td><td><a href=\\\"https://www.facebook.com/SENA\\\" target=\\\"_blank\\\"><img src=\\\"https://www.sena.edu.co/es-co/Noticias/PublishingImages/mail/04-facebookgray.png\\\" alt=\\\"Facebook\\\"></a></td><td><a href=\\\"https://twitter.com/SENAComunica\\\" target=\\\"_blank\\\"><img src=\\\"https://www.sena.edu.co/es-co/Noticias/PublishingImages/mail/05-twittergray.png\\\" alt=\\\"Twitter\\\"></a></td><td><a href=\\\"https://www.youtube.com/user/SENATV\\\" target=\\\"_blank\\\"><img src=\\\"https://www.sena.edu.co/es-co/Noticias/PublishingImages/mail/06-youtubegray.png\\\" alt=\\\"Youtube\\\"></a></td><td><a href=\\\"https://www.linkedin.com/school/servicio-nacional-de-aprendizaje-sena-/\\\" target=\\\"_blank\\\"><img src=\\\"https://www.sena.edu.co/es-co/Noticias/PublishingImages/mail/09-ingray.png\\\" alt=\\\"Linkedin\\\"></a></td></tr><tr><td colspan=\\\"5\\\"><img src=\\\"https://www.sena.edu.co/es-co/Noticias/PublishingImages/mail/07-redes.png\\\" alt=\\\"Redes\\\"></td></tr></tbody></table></td><td style=\\\"width: 165px;\\\"><p style=\\\"margin: 0px;\\\"><a href=\\\"https://www.sena.edu.co/es-co/Paginas/default.aspx\\\" target=\\\"_blank\\\"><img src=\\\"https://www.sena.edu.co/es-co/Noticias/PublishingImages/mail/08-webgrey.png\\\" alt=\\\"SENA\\\"></a></p></td></tr></tbody></table></td></tr></tbody></table></div></td></tr></tbody></table>\"\n}\n",
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1632,
+        848
+      ],
+      "id": "ab33fca7-a503-47dd-9337-31738c488a03",
+      "name": "Insertar firma HTML1"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nlet asunto = \"Sin asunto\";\nlet cuerpo = \"Sin cuerpo\";\n\n\nconst para = $('Combinar mensaje completo').first().json.para || null;\nconst id_original = $('Combinar mensaje completo').first().json.id_original || null;\n\nfor (const item of items) {\n  if (item.json.subject) {\n    asunto = item.json.subject;\n  }\n  if (item.json.body) {\n    cuerpo = item.json.body;\n  }\n}\n\nconst firma = $('Insertar firma HTML1').first().json.firmaHtml || \"\";\n\nreturn {\n  json: {\n    asunto,\n    cuerpo,\n    firma,\n    para,\n    id_original,\n    mensaje_completo: `${cuerpo}<br><br>${firma}`\n  }\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2096,
+        560
+      ],
+      "id": "f78b2312-8c90-4dd6-be03-8a722e8d80d2",
+      "name": "Combinar mensaje + firma1"
+    },
+    {
+      "parameters": {
+        "jsCode": "const agentResponse = $input.first().json.output; \n\ntry {\n  const parsedContent = JSON.parse(agentResponse);\n\n  const subjectOutput = {\n    subject: parsedContent.asunto\n  };\n\n  const bodyOutput = {\n    body: parsedContent.cuerpo\n  };\n\n  // Devolvemos dos ítems separados\n  return [\n    { json: subjectOutput },\n    { json: bodyOutput }\n  ];\n\n} catch (error) {\n  console.error(\"Error al parsear la respuesta del AI Agent:\", error);\n  // Puedes devolver un error o una salida predeterminada si el parseo falla\n  return [{ json: { error: \"Formato de respuesta del AI Agent inválido.\" } }];\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1632,
+        496
+      ],
+      "id": "bf9fdcab-0f48-4f2e-824e-070ed705eedd",
+      "name": "Mensaje + Asunto1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.microsoft.com/v1.0/me/sendMail",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "microsoftOutlookOAuth2Api",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{$json}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2784,
+        736
+      ],
+      "id": "198e5844-d4da-4c83-a2d3-2141fd30d553",
+      "name": "Responder correo1",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "QI4vXHpO5jiZuoHH",
+          "name": "Microsoft Outlook account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "90c37bac-6707-4f58-9bc3-db1e305a2dae",
+              "name": "para",
+              "value": "={{ $('Combinar mensaje + firma1').first().json.para }}",
+              "type": "string"
+            },
+            {
+              "id": "507bab7d-cec7-4f73-b27c-e282b510ee63",
+              "name": "asunto",
+              "value": "={{ $('Combinar mensaje + firma1').first().json.asunto }}",
+              "type": "string"
+            },
+            {
+              "id": "459392eb-69b9-4ec3-8a64-0f1e35600dce",
+              "name": "mensaje_completo",
+              "value": "={{ $('Combinar mensaje + firma1').first().json.cuerpo.replace(/\\n/g, '<br>') + '<br><br>' + $('Combinar mensaje + firma1').first().json.firma }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2320,
+        720
+      ],
+      "id": "d757715e-a7cf-40e5-bf67-de5f549e2c67",
+      "name": "Pasar datos a Json1"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Procesador especializado para emails con firma HTML incluida en mensaje_completo\nconst inputData = $('Pasar datos a Json1').first().json;\n\n// Validación básica de entrada\nconst subject = inputData.asunto || \"Reconocimiento de su queja - Falta de respuesta\";\nconst recipient = inputData.para;\n\nif (!recipient) {\n  throw new Error('El campo \"para\" (destinatario) es requerido');\n}\n\nconst emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;\nif (!emailRegex.test(recipient)) {\n  throw new Error(`Formato de email inválido: ${recipient}`);\n}\n\nif (!inputData.mensaje_completo || inputData.mensaje_completo.trim() === \"\") {\n  throw new Error('El campo \"mensaje_completo\" está vacío o no definido.');\n}\n\n// Preparar HTML directamente desde mensaje_completo\nconst cleanedHtml = inputData.mensaje_completo\n  .replace(/\\s+/g, ' ')       // Comprimir espacios\n  .replace(/>\\s+</g, '><')    // Eliminar espacios entre etiquetas\n  .replace(/\\n|\\r/g, '')      // Eliminar saltos de línea\n  .trim();\n\n// Crear payload para Microsoft Graph API\nconst payload = {\n  message: {\n    subject: subject,\n    body: {\n      contentType: \"HTML\",\n      content: cleanedHtml\n    },\n    toRecipients: [\n      {\n        emailAddress: {\n          address: recipient\n        }\n      }\n    ],\n    importance: \"normal\"\n  },\n  saveToSentItems: true\n};\n\n// Log para depuración\nconsole.log('=== ENVÍO EMAIL HTML ===');\nconsole.log('Asunto:', subject);\nconsole.log('Destinatario:', recipient);\nconsole.log('Longitud HTML:', cleanedHtml.length);\nconsole.log('Contiene firma SENA:', cleanedHtml.includes('Logo-Firma-Email-SENAgray.png'));\nconsole.log('Cantidad de imágenes:', (cleanedHtml.match(/<img/g) || []).length);\nconsole.log('Cantidad de enlaces:', (cleanedHtml.match(/<a/g) || []).length);\nconsole.log('Vista previa HTML:', cleanedHtml.substring(0, 500) + '...');\n\n// Retornar payload\nreturn [{\n  json: {\n    ...payload,\n    _metadata: {\n      htmlLength: cleanedHtml.length,\n      imageCount: (cleanedHtml.match(/<img/g) || []).length,\n      linkCount: (cleanedHtml.match(/<a/g) || []).length,\n      timestamp: new Date().toISOString()\n    }\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2512,
+        544
+      ],
+      "id": "b9c5b83b-dbc5-4999-9bae-d38f16c34e75",
+      "name": "Renderizar HTML1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1904,
+        688
+      ],
+      "id": "464cd90e-5696-4e0c-9bf3-f357ec8daaee",
+      "name": "Ejecutar ambos nodos1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Este es el correo:  {{ $('Clasificador de los correos').item.json.message.content }}",
+        "options": {
+          "systemMessage": "=#iMPORTANTE!\n\n-Comienza la repuesta con \"{/n asunto + cuerpo \\n}\"\"\n\n\n## INSTRUCCIONES PARA EL AGENTE DE IA – CATEGORÍA: PETICIONES\n\nTú eres un agente de inteligencia artificial especializado en la gestión y respuesta automatizada de correos electrónicos clasificados como \"Peticiones\". Formas parte de un flujo automatizado creado en n8n, y tu función principal es generar respuestas profesionales, claras y orientadas a dar trámite o guía sobre la solicitud realizada por el remitente.\n\n### OBJETIVO:\nAnaliza el contenido del correo clasificado como \"Petición\", incluyendo los documentos adjuntos si existen. Redacta una respuesta automática que:\n\n1. Reconozca y valide la solicitud del usuario.\n2. Agradezca de forma cordial el interés o la iniciativa del remitente.\n3. Explique si la petición será atendida, trasladada o escalada, y en qué plazos.\n4. Oriente sobre los pasos a seguir o los documentos/canales necesarios si aplica.\n5. Transmita una actitud respetuosa, colaborativa y de servicio.\n\n### FORMATO DE SALIDA:\n**TU RESPUESTA DEBE SER UN OBJETO JSON VÁLIDO. NO INCLUYAS NINGÚN TEXTO FUERA DEL JSON.** \n\n\n\nEl objeto JSON debe tener las siguientes claves:\n\n- `\"asunto\"`: Un string con el asunto del correo, claro y descriptivo. Ejemplo: `\"Respuesta a su solicitud - [Resumen de la petición]\"`.\n- `\"cuerpo\"`: Un string con el texto principal del mensaje, siguiendo esta estructura:\n\n  1. Saludo personalizado: Dirígete al remitente de forma amable (Ej: \"Cordial saludo Estimado/a [Nombre del Remitente],\").\n  2. **Agradecimiento y validación**: Agradece la solicitud recibida y reconoce su importancia.\n  3. **Desarrollo del contenido**:\n     - Resume brevemente el propósito de la petición según lo detectado.\n     - Indica si será atendida directamente, redirigida o escalada, y menciona plazos si es posible.\n     - Brinda orientación sobre pasos a seguir o requisitos adicionales si aplica.\n  4. **Cierre cordial**: Invita a mantener la comunicación abierta, reafirma el compromiso institucional y despídete de manera amable.\n  5. **Firma final**: Incluye la firma `\"Atentamente,\\nDon Pepe\\nÁrea de Relaciones Corporativas\"`.\n\n### PAUTAS ADICIONALES:\n- Usa un lenguaje respetuoso, neutro, claro y profesional.\n- No hagas promesas fuera de lo mencionado en el correo original.\n- Si el mensaje está incompleto o poco claro, solicita amablemente más información.\n- Evita respuestas genéricas: adapta el contenido según la petición detectada.\n- Lee y analiza los documentos adjuntos si los hay.\n\n### IMPORTANTE:\n- Esta instrucción se aplica **únicamente** a correos previamente clasificados como “Peticiones” por el sistema n8n.\n- No respondas mensajes que correspondan a otras categorías como quejas, reclamos o sugerencias.\n- NO INCLUYAS texto adicional fuera del objeto JSON.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.1,
+      "position": [
+        1072,
+        1200
+      ],
+      "id": "65458a3d-6238-4de2-b44f-49b3e15ea398",
+      "name": "Agente Peticiones"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"firmaHtml\": \"<table style=\\\"text-align: left; background-color: rgb(255, 255, 255);\\\"><tbody><tr><td style=\\\"text-align: left; width: 147px; height: 154px;\\\"><img src=\\\"https://www.sena.edu.co/es-co/Noticias/PublishingImages/mail/Logo-Firma-Email-SENAgray.png\\\" alt=\\\"Logo SENA\\\" width=\\\"145\\\" height=\\\"142\\\" style=\\\"width: 145px; height: 142px; margin: 0px;\\\"></td><td style=\\\"text-align: left; vertical-align: top; width: 372px; height: 154px;\\\"><div style=\\\"margin: 0px; max-width: 445px;\\\"><table><tbody><tr><td><table><tbody><tr><td style=\\\"border-left: 2px solid rgb(226, 227, 228); width: 13px;\\\"></td><td style=\\\"vertical-align: top; width: 339px;\\\"><p style=\\\"margin: 0px; font-family: 'Work Sans'; font-size: 20px; color: rgb(57, 169, 0);\\\">Ingeniero Jeison</p><p style=\\\"margin: 0px; letter-spacing: 1px; font-family: 'Work Sans'; font-size: 12px; color: rgb(118, 119, 124);\\\">Centro de servicios financieros</p><p style=\\\"margin: 0px; letter-spacing: 1px; font-family: 'Work Sans'; font-size: 12px; color: rgb(118, 119, 124);\\\"><span style=\\\"color: rgb(17, 85, 204);\\\"><a href=\\\"mailto:ricardomontolivo1197@outlook.com\\\">ricardoelpro@soy.sena.edu.co</a></span></p><p style=\\\"margin: 0px; letter-spacing: 1px; font-family: 'Work Sans'; font-size: 12px; color: rgb(118, 119, 124);\\\">Avenida 100</p></td></tr></tbody></table></td></tr><tr><td style=\\\"height: 5px;\\\"></td></tr><tr><td><table><tbody><tr><td style=\\\"width: 10px;\\\"></td><td style=\\\"width: 20px;\\\"><table align=\\\"center\\\" style=\\\"width: 126px;\\\"><tbody><tr><td><a href=\\\"https://www.instagram.com/senacomunica/?hl=es-la\\\" target=\\\"_blank\\\"><img src=\\\"https://www.sena.edu.co/es-co/Noticias/PublishingImages/mail/03-instagramgray.png\\\" alt=\\\"instagram\\\"></a></td><td><a href=\\\"https://www.facebook.com/SENA\\\" target=\\\"_blank\\\"><img src=\\\"https://www.sena.edu.co/es-co/Noticias/PublishingImages/mail/04-facebookgray.png\\\" alt=\\\"Facebook\\\"></a></td><td><a href=\\\"https://twitter.com/SENAComunica\\\" target=\\\"_blank\\\"><img src=\\\"https://www.sena.edu.co/es-co/Noticias/PublishingImages/mail/05-twittergray.png\\\" alt=\\\"Twitter\\\"></a></td><td><a href=\\\"https://www.youtube.com/user/SENATV\\\" target=\\\"_blank\\\"><img src=\\\"https://www.sena.edu.co/es-co/Noticias/PublishingImages/mail/06-youtubegray.png\\\" alt=\\\"Youtube\\\"></a></td><td><a href=\\\"https://www.linkedin.com/school/servicio-nacional-de-aprendizaje-sena-/\\\" target=\\\"_blank\\\"><img src=\\\"https://www.sena.edu.co/es-co/Noticias/PublishingImages/mail/09-ingray.png\\\" alt=\\\"Linkedin\\\"></a></td></tr><tr><td colspan=\\\"5\\\"><img src=\\\"https://www.sena.edu.co/es-co/Noticias/PublishingImages/mail/07-redes.png\\\" alt=\\\"Redes\\\"></td></tr></tbody></table></td><td style=\\\"width: 165px;\\\"><p style=\\\"margin: 0px;\\\"><a href=\\\"https://www.sena.edu.co/es-co/Paginas/default.aspx\\\" target=\\\"_blank\\\"><img src=\\\"https://www.sena.edu.co/es-co/Noticias/PublishingImages/mail/08-webgrey.png\\\" alt=\\\"SENA\\\"></a></p></td></tr></tbody></table></td></tr></tbody></table></div></td></tr></tbody></table>\"\n}\n",
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1616,
+        1312
+      ],
+      "id": "22b4f5ff-b602-41c5-9bf1-398505cff682",
+      "name": "Insertar firma HTML2"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nlet asunto = \"Sin asunto\";\nlet cuerpo = \"Sin cuerpo\";\n\n\nconst para = $('Combinar mensaje completo').first().json.para || null;\nconst id_original = $('Combinar mensaje completo').first().json.id_original || null;\n\nfor (const item of items) {\n  if (item.json.subject) {\n    asunto = item.json.subject;\n  }\n  if (item.json.body) {\n    cuerpo = item.json.body;\n  }\n}\n\nconst firma = $('Insertar firma HTML2').first().json.firmaHtml || \"sin firma\";\n\n\n              \nreturn {\n  json: {\n    asunto,\n    cuerpo,\n    firma,\n    para,\n    id_original,\n    mensaje_completo: `${cuerpo}<br><br>${firma}`\n  }\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2160,
+        1008
+      ],
+      "id": "64d9c671-93ec-45fc-adfc-bdc59c6f0bf0",
+      "name": "Combinar mensaje + firma2"
+    },
+    {
+      "parameters": {
+        "jsCode": "const agentResponse = $input.first().json.output; \n\ntry {\n  const parsedContent = JSON.parse(agentResponse);\n\n  const subjectOutput = {\n    subject: parsedContent.asunto\n  };\n\n  const bodyOutput = {\n    body: parsedContent.cuerpo\n  };\n\n  // Devolvemos dos ítems separados\n  return [\n    { json: subjectOutput },\n    { json: bodyOutput }\n  ];\n\n} catch (error) {\n  console.error(\"Error al parsear la respuesta del AI Agent:\", error);\n  // Puedes devolver un error o una salida predeterminada si el parseo falla\n  return [{ json: { error: \"Formato de respuesta del AI Agent inválido.\" } }];\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1616,
+        1040
+      ],
+      "id": "affe4846-1e55-4213-9072-90a16c121660",
+      "name": "Mensaje + Asunto2"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.microsoft.com/v1.0/me/sendMail",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "microsoftOutlookOAuth2Api",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{$json}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2800,
+        1264
+      ],
+      "id": "e171a7d1-4c59-4340-9cc0-df328905601b",
+      "name": "Responder correo2",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "QI4vXHpO5jiZuoHH",
+          "name": "Microsoft Outlook account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "90c37bac-6707-4f58-9bc3-db1e305a2dae",
+              "name": "para",
+              "value": "={{ $('Combinar mensaje + firma2').first().json.para }}",
+              "type": "string"
+            },
+            {
+              "id": "507bab7d-cec7-4f73-b27c-e282b510ee63",
+              "name": "asunto",
+              "value": "={{ $('Combinar mensaje + firma2').first().json.asunto }}",
+              "type": "string"
+            },
+            {
+              "id": "459392eb-69b9-4ec3-8a64-0f1e35600dce",
+              "name": "mensaje_completo",
+              "value": "={{ $('Combinar mensaje + firma2').first().json.cuerpo.replace(/\\n/g, '<br>') + '<br><br>' + $('Combinar mensaje + firma2').first().json.firma }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2384,
+        1248
+      ],
+      "id": "5cfefb9f-b26c-4235-aea0-6ff38d4734da",
+      "name": "Pasar datos a Json2"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Procesador especializado para emails con firma HTML incluida en mensaje_completo\nconst inputData = $('Pasar datos a Json2').first().json;\n\n// Validación básica de entrada\nconst subject = inputData.asunto || \"Reconocimiento de su queja - Falta de respuesta\";\nconst recipient = inputData.para;\n\nif (!recipient) {\n  throw new Error('El campo \"para\" (destinatario) es requerido');\n}\n\nconst emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;\nif (!emailRegex.test(recipient)) {\n  throw new Error(`Formato de email inválido: ${recipient}`);\n}\n\nif (!inputData.mensaje_completo || inputData.mensaje_completo.trim() === \"\") {\n  throw new Error('El campo \"mensaje_completo\" está vacío o no definido.');\n}\n\n// Preparar HTML directamente desde mensaje_completo\nconst cleanedHtml = inputData.mensaje_completo\n  .replace(/\\s+/g, ' ')       // Comprimir espacios\n  .replace(/>\\s+</g, '><')    // Eliminar espacios entre etiquetas\n  .replace(/\\n|\\r/g, '')      // Eliminar saltos de línea\n  .trim();\n\n// Crear payload para Microsoft Graph API\nconst payload = {\n  message: {\n    subject: subject,\n    body: {\n      contentType: \"HTML\",\n      content: cleanedHtml\n    },\n    toRecipients: [\n      {\n        emailAddress: {\n          address: recipient\n        }\n      }\n    ],\n    importance: \"normal\"\n  },\n  saveToSentItems: true\n};\n\n// Log para depuración\nconsole.log('=== ENVÍO EMAIL HTML ===');\nconsole.log('Asunto:', subject);\nconsole.log('Destinatario:', recipient);\nconsole.log('Longitud HTML:', cleanedHtml.length);\nconsole.log('Contiene firma SENA:', cleanedHtml.includes('Logo-Firma-Email-SENAgray.png'));\nconsole.log('Cantidad de imágenes:', (cleanedHtml.match(/<img/g) || []).length);\nconsole.log('Cantidad de enlaces:', (cleanedHtml.match(/<a/g) || []).length);\nconsole.log('Vista previa HTML:', cleanedHtml.substring(0, 500) + '...');\n\n// Retornar payload\nreturn [{\n  json: {\n    ...payload,\n    _metadata: {\n      htmlLength: cleanedHtml.length,\n      imageCount: (cleanedHtml.match(/<img/g) || []).length,\n      linkCount: (cleanedHtml.match(/<a/g) || []).length,\n      timestamp: new Date().toISOString()\n    }\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2576,
+        992
+      ],
+      "id": "97f98856-aef7-4cdf-b37b-53dad9c5c9ec",
+      "name": "Renderizar HTML2"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1936,
+        1168
+      ],
+      "id": "7e8aa064-222d-4598-ae31-c4614e5fc9ae",
+      "name": "Ejecutar ambos nodos2"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"firmaHtml\": \"<table style=\\\"text-align: left; background-color: rgb(255, 255, 255);\\\"><tbody><tr><td style=\\\"text-align: left; width: 147px; height: 154px;\\\"><img src=\\\"https://www.sena.edu.co/es-co/Noticias/PublishingImages/mail/Logo-Firma-Email-SENAgray.png\\\" alt=\\\"Logo SENA\\\" width=\\\"145\\\" height=\\\"142\\\" style=\\\"width: 145px; height: 142px; margin: 0px;\\\"></td><td style=\\\"text-align: left; vertical-align: top; width: 372px; height: 154px;\\\"><div style=\\\"margin: 0px; max-width: 445px;\\\"><table><tbody><tr><td><table><tbody><tr><td style=\\\"border-left: 2px solid rgb(226, 227, 228); width: 13px;\\\"></td><td style=\\\"vertical-align: top; width: 339px;\\\"><p style=\\\"margin: 0px; font-family: 'Work Sans'; font-size: 20px; color: rgb(57, 169, 0);\\\">Ingeniero Jeison</p><p style=\\\"margin: 0px; letter-spacing: 1px; font-family: 'Work Sans'; font-size: 12px; color: rgb(118, 119, 124);\\\">Centro de servicios financieros</p><p style=\\\"margin: 0px; letter-spacing: 1px; font-family: 'Work Sans'; font-size: 12px; color: rgb(118, 119, 124);\\\"><span style=\\\"color: rgb(17, 85, 204);\\\"><a href=\\\"mailto:ricardomontolivo1197@outlook.com\\\">ricardoelpro@soy.sena.edu.co</a></span></p><p style=\\\"margin: 0px; letter-spacing: 1px; font-family: 'Work Sans'; font-size: 12px; color: rgb(118, 119, 124);\\\">Avenida 100</p></td></tr></tbody></table></td></tr><tr><td style=\\\"height: 5px;\\\"></td></tr><tr><td><table><tbody><tr><td style=\\\"width: 10px;\\\"></td><td style=\\\"width: 20px;\\\"><table align=\\\"center\\\" style=\\\"width: 126px;\\\"><tbody><tr><td><a href=\\\"https://www.instagram.com/senacomunica/?hl=es-la\\\" target=\\\"_blank\\\"><img src=\\\"https://www.sena.edu.co/es-co/Noticias/PublishingImages/mail/03-instagramgray.png\\\" alt=\\\"instagram\\\"></a></td><td><a href=\\\"https://www.facebook.com/SENA\\\" target=\\\"_blank\\\"><img src=\\\"https://www.sena.edu.co/es-co/Noticias/PublishingImages/mail/04-facebookgray.png\\\" alt=\\\"Facebook\\\"></a></td><td><a href=\\\"https://twitter.com/SENAComunica\\\" target=\\\"_blank\\\"><img src=\\\"https://www.sena.edu.co/es-co/Noticias/PublishingImages/mail/05-twittergray.png\\\" alt=\\\"Twitter\\\"></a></td><td><a href=\\\"https://www.youtube.com/user/SENATV\\\" target=\\\"_blank\\\"><img src=\\\"https://www.sena.edu.co/es-co/Noticias/PublishingImages/mail/06-youtubegray.png\\\" alt=\\\"Youtube\\\"></a></td><td><a href=\\\"https://www.linkedin.com/school/servicio-nacional-de-aprendizaje-sena-/\\\" target=\\\"_blank\\\"><img src=\\\"https://www.sena.edu.co/es-co/Noticias/PublishingImages/mail/09-ingray.png\\\" alt=\\\"Linkedin\\\"></a></td></tr><tr><td colspan=\\\"5\\\"><img src=\\\"https://www.sena.edu.co/es-co/Noticias/PublishingImages/mail/07-redes.png\\\" alt=\\\"Redes\\\"></td></tr></tbody></table></td><td style=\\\"width: 165px;\\\"><p style=\\\"margin: 0px;\\\"><a href=\\\"https://www.sena.edu.co/es-co/Paginas/default.aspx\\\" target=\\\"_blank\\\"><img src=\\\"https://www.sena.edu.co/es-co/Noticias/PublishingImages/mail/08-webgrey.png\\\" alt=\\\"SENA\\\"></a></p></td></tr></tbody></table></td></tr></tbody></table></div></td></tr></tbody></table>\"\n}\n",
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1600,
+        1904
+      ],
+      "id": "fc638852-91b8-4597-a0a0-434e99ed97b8",
+      "name": "Insertar firma HTML3"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nlet asunto = \"Sin asunto\";\nlet cuerpo = \"Sin cuerpo\";\n\n\nconst para = $('Combinar mensaje completo').first().json.para || null;\nconst id_original = $('Combinar mensaje completo').first().json.id_original || null;\n\nfor (const item of items) {\n  if (item.json.subject) {\n    asunto = item.json.subject;\n  }\n  if (item.json.body) {\n    cuerpo = item.json.body;\n  }\n}\n\nconst firma = $('Insertar firma HTML3').first().json.firmaHtml || \"\";\n\nreturn {\n  json: {\n    asunto,\n    cuerpo,\n    firma,\n    para,\n    id_original,\n    mensaje_completo: `${cuerpo}<br><br>${firma}`\n  }\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2192,
+        1504
+      ],
+      "id": "73d62cdd-03f9-4420-aa49-38073ae3b904",
+      "name": "Combinar mensaje + firma3"
+    },
+    {
+      "parameters": {
+        "jsCode": "const agentResponse = $input.first().json.output; \n\ntry {\n  const parsedContent = JSON.parse(agentResponse);\n\n  const subjectOutput = {\n    subject: parsedContent.asunto\n  };\n\n  const bodyOutput = {\n    body: parsedContent.cuerpo\n  };\n\n  // Devolvemos dos ítems separados\n  return [\n    { json: subjectOutput },\n    { json: bodyOutput }\n  ];\n\n} catch (error) {\n  console.error(\"Error al parsear la respuesta del AI Agent:\", error);\n  // Puedes devolver un error o una salida predeterminada si el parseo falla\n  return [{ json: { error: \"Formato de respuesta del AI Agent inválido.\" } }];\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1616,
+        1552
+      ],
+      "id": "41096ce4-5159-4d9a-a027-13d65c76faf2",
+      "name": "Mensaje + Asunto3"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.microsoft.com/v1.0/me/sendMail",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "microsoftOutlookOAuth2Api",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{$json}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2848,
+        1744
+      ],
+      "id": "df187f09-af9a-4ec7-be1a-7300a6f5a4b9",
+      "name": "Responder correo3",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "QI4vXHpO5jiZuoHH",
+          "name": "Microsoft Outlook account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "90c37bac-6707-4f58-9bc3-db1e305a2dae",
+              "name": "para",
+              "value": "={{ $('Combinar mensaje + firma3').first().json.para }}",
+              "type": "string"
+            },
+            {
+              "id": "507bab7d-cec7-4f73-b27c-e282b510ee63",
+              "name": "asunto",
+              "value": "={{ $('Combinar mensaje + firma3').first().json.asunto }}",
+              "type": "string"
+            },
+            {
+              "id": "459392eb-69b9-4ec3-8a64-0f1e35600dce",
+              "name": "mensaje_completo",
+              "value": "={{ $('Combinar mensaje + firma3').first().json.cuerpo.replace(/\\n/g, '<br>') + '<br><br>' + $('Combinar mensaje + firma3').first().json.firma }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2416,
+        1760
+      ],
+      "id": "65ec01c7-86c4-4fc9-a02b-f21d9664e8f5",
+      "name": "Pasar datos a Json3"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Procesador especializado para emails con firma HTML incluida en mensaje_completo\nconst inputData = $('Pasar datos a Json3').first().json;\n\n// Validación básica de entrada\nconst subject = inputData.asunto || \"Reconocimiento de su queja - Falta de respuesta\";\nconst recipient = inputData.para;\n\nif (!recipient) {\n  throw new Error('El campo \"para\" (destinatario) es requerido');\n}\n\nconst emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;\nif (!emailRegex.test(recipient)) {\n  throw new Error(`Formato de email inválido: ${recipient}`);\n}\n\nif (!inputData.mensaje_completo || inputData.mensaje_completo.trim() === \"\") {\n  throw new Error('El campo \"mensaje_completo\" está vacío o no definido.');\n}\n\n// Preparar HTML directamente desde mensaje_completo\nconst cleanedHtml = inputData.mensaje_completo\n  .replace(/\\s+/g, ' ')       // Comprimir espacios\n  .replace(/>\\s+</g, '><')    // Eliminar espacios entre etiquetas\n  .replace(/\\n|\\r/g, '')      // Eliminar saltos de línea\n  .trim();\n\n// Crear payload para Microsoft Graph API\nconst payload = {\n  message: {\n    subject: subject,\n    body: {\n      contentType: \"HTML\",\n      content: cleanedHtml\n    },\n    toRecipients: [\n      {\n        emailAddress: {\n          address: recipient\n        }\n      }\n    ],\n    importance: \"normal\"\n  },\n  saveToSentItems: true\n};\n\n// Log para depuración\nconsole.log('=== ENVÍO EMAIL HTML ===');\nconsole.log('Asunto:', subject);\nconsole.log('Destinatario:', recipient);\nconsole.log('Longitud HTML:', cleanedHtml.length);\nconsole.log('Contiene firma SENA:', cleanedHtml.includes('Logo-Firma-Email-SENAgray.png'));\nconsole.log('Cantidad de imágenes:', (cleanedHtml.match(/<img/g) || []).length);\nconsole.log('Cantidad de enlaces:', (cleanedHtml.match(/<a/g) || []).length);\nconsole.log('Vista previa HTML:', cleanedHtml.substring(0, 500) + '...');\n\n// Retornar payload\nreturn [{\n  json: {\n    ...payload,\n    _metadata: {\n      htmlLength: cleanedHtml.length,\n      imageCount: (cleanedHtml.match(/<img/g) || []).length,\n      linkCount: (cleanedHtml.match(/<a/g) || []).length,\n      timestamp: new Date().toISOString()\n    }\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2640,
+        1520
+      ],
+      "id": "9239330f-7391-4435-b8f0-cc93f1a83c0b",
+      "name": "Renderizar HTML3"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1920,
+        1744
+      ],
+      "id": "f243ec2c-d80f-4af1-b3b9-2895c732c06f",
+      "name": "Ejecutar ambos nodos3"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1072,
+        1392
+      ],
+      "id": "52cd1b57-2af4-4de7-bd15-0c4f57972e02",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "lGGa9dJLCfrByxoT",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1008,
+        240
+      ],
+      "id": "f4b3fabc-04e8-41f7-8108-8815829b2391",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "lGGa9dJLCfrByxoT",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1056,
+        848
+      ],
+      "id": "7dbed4d7-2e16-4f08-93ce-db3f03017cdd",
+      "name": "Google Gemini Chat Model2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "lGGa9dJLCfrByxoT",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1056,
+        1936
+      ],
+      "id": "2ea0ace5-9364-447d-8477-3ccc1cd1f187",
+      "name": "Google Gemini Chat Model3",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "lGGa9dJLCfrByxoT",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "##  Combinar y enviar correo\n",
+        "height": 2336,
+        "width": 1504,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1520,
+        -224
+      ],
+      "id": "fd1906d1-343d-4eb2-8cab-ba737f03a3e0",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Recibir procesar correo\n",
+        "height": 448,
+        "width": 1136,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -560,
+        96
+      ],
+      "id": "f65c70d6-4111-4d13-83e6-a66f53c0bbe8",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Limpiar y clasificar",
+        "height": 848,
+        "width": 1088,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -544,
+        592
+      ],
+      "id": "31b9b414-2142-4d9f-b307-2bd5b7504bc5",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Responder",
+        "height": 2096,
+        "width": 624
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        896,
+        0
+      ],
+      "id": "4eea760a-2ee6-44dd-9f21-0a7f605735ce",
+      "name": "Sticky Note3"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Microsoft Outlook Trigger": {
+      "main": [
+        [
+          {
+            "node": "Pasar de binario a base 64",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "extraer asunto y cuerpo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Carpeta Quejas": {
+      "main": [
+        [
+          {
+            "node": "Agente de quejas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Carpeta Peticiones": {
+      "main": [
+        [
+          {
+            "node": "Agente Peticiones",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Carpeta Reclamos": {
+      "main": [
+        [
+          {
+            "node": "Agente Reclamos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clasificador de los correos": {
+      "main": [
+        [
+          {
+            "node": "Carpeta Quejas",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Carpeta Reclamos",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Carpeta Peticiones",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Carpeta Otros",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IA-Analiza y clasifica": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Clasificador de los correos",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combinar mensaje completo": {
+      "main": [
+        [
+          {
+            "node": "Limpia el cuerpo del correo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "extraer asunto y cuerpo": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Combinar mensaje completo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limpia el cuerpo del correo": {
+      "main": [
+        [
+          {
+            "node": "Clasificador de los correos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pasar de binario a base 64": {
+      "main": [
+        [
+          {
+            "node": "Obtener varios archivos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pasar de base 64 a texto plano": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Obtener varios archivos": {
+      "main": [
+        [
+          {
+            "node": "pasar de base 64 a texto plano",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Carpeta Otros": {
+      "main": [
+        [
+          {
+            "node": "Agente de otros",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agente de quejas": {
+      "main": [
+        [
+          {
+            "node": "Insertar firma HTML",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Mensaje + Asunto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agente Reclamos": {
+      "main": [
+        [
+          {
+            "node": "Mensaje + Asunto1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Insertar firma HTML1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insertar firma HTML": {
+      "main": [
+        [
+          {
+            "node": "Ejecutar ambos nodos",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Combinar mensaje + firma": {
+      "main": [
+        [
+          {
+            "node": "Pasar datos a Json",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mensaje + Asunto": {
+      "main": [
+        [
+          {
+            "node": "Ejecutar ambos nodos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Responder correo": {
+      "main": [
+        []
+      ]
+    },
+    "Pasar datos a Json": {
+      "main": [
+        [
+          {
+            "node": "Renderizar HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Renderizar HTML": {
+      "main": [
+        [
+          {
+            "node": "Responder correo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ejecutar ambos nodos": {
+      "main": [
+        [
+          {
+            "node": "Combinar mensaje + firma",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insertar firma HTML1": {
+      "main": [
+        [
+          {
+            "node": "Ejecutar ambos nodos1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Combinar mensaje + firma1": {
+      "main": [
+        [
+          {
+            "node": "Pasar datos a Json1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mensaje + Asunto1": {
+      "main": [
+        [
+          {
+            "node": "Ejecutar ambos nodos1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pasar datos a Json1": {
+      "main": [
+        [
+          {
+            "node": "Renderizar HTML1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Renderizar HTML1": {
+      "main": [
+        [
+          {
+            "node": "Responder correo1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ejecutar ambos nodos1": {
+      "main": [
+        [
+          {
+            "node": "Combinar mensaje + firma1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agente de otros": {
+      "main": [
+        [
+          {
+            "node": "Mensaje + Asunto3",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Insertar firma HTML3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pasar datos a Json3": {
+      "main": [
+        [
+          {
+            "node": "Renderizar HTML3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Renderizar HTML3": {
+      "main": [
+        [
+          {
+            "node": "Responder correo3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ejecutar ambos nodos3": {
+      "main": [
+        [
+          {
+            "node": "Combinar mensaje + firma3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agente Peticiones": {
+      "main": [
+        [
+          {
+            "node": "Mensaje + Asunto2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Insertar firma HTML2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insertar firma HTML2": {
+      "main": [
+        [
+          {
+            "node": "Ejecutar ambos nodos2",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Combinar mensaje + firma2": {
+      "main": [
+        [
+          {
+            "node": "Pasar datos a Json2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mensaje + Asunto2": {
+      "main": [
+        [
+          {
+            "node": "Ejecutar ambos nodos2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pasar datos a Json2": {
+      "main": [
+        [
+          {
+            "node": "Renderizar HTML2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Renderizar HTML2": {
+      "main": [
+        [
+          {
+            "node": "Responder correo2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ejecutar ambos nodos2": {
+      "main": [
+        [
+          {
+            "node": "Combinar mensaje + firma2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insertar firma HTML3": {
+      "main": [
+        [
+          {
+            "node": "Ejecutar ambos nodos3",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Combinar mensaje + firma3": {
+      "main": [
+        [
+          {
+            "node": "Pasar datos a Json3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mensaje + Asunto3": {
+      "main": [
+        [
+          {
+            "node": "Ejecutar ambos nodos3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Agente Peticiones",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Agente de otros",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Agente Reclamos",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Agente de quejas",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "de3b50f9-fc28-415f-b4eb-d05ff5aa30a3",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "853fa24c7a35c06696cf32f561707dfe7dc31ff3696818624a50128c4aa32e7b"
+  },
+  "id": "e1CQZxkwx4Akvexh",
+  "tags": []
+}
